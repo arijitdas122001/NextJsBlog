@@ -3,7 +3,7 @@ import UserModel from "@/Model/User";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 
-export async function POST(req:Request) {
+export async function DELETE(req:Request) {
     await DbConnect();
     try {
         const {user_id,blog_id}=await req.json();

@@ -1,9 +1,11 @@
 import BlogModel from "@/Model/Blog";
 import ApiResponse from "@/utils/ApiResponse";
+import { DbConnect } from "@/utils/DbConnection";
 
 export async function GET(){
+    await DbConnect();
     try {
-        const All_Blogs=await BlogModel.find();
+        const All_Blogs=await BlogModel.find().sort({createdAt:-1});
        return Response.json(
         {
             success:true,
