@@ -3,10 +3,10 @@ import UserModel from "@/Model/User";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 
-export async function POST(res:Response) {
+export async function POST(req:Request) {
     await DbConnect();
     try {
-        const {user_id,blog_id}=await res.json();
+        const {user_id,blog_id}=await req.json();
         await BlogModel.findByIdAndDelete(blog_id);
         await UserModel.findByIdAndUpdate(
             user_id,

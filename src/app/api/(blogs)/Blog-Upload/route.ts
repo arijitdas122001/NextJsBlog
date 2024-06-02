@@ -3,10 +3,10 @@ import UserModel from "@/Model/User";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 
-export async function POST(res:Response) {
+export async function POST(req:Request) {
     await DbConnect();
     try {
-        const Blog_data=await res.json();
+        const Blog_data=await req.json();
         const username=Blog_data.username;
         const Blog_model=new BlogModel(Blog_data);
         const blog_res=await Blog_model.save();

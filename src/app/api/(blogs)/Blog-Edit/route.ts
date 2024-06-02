@@ -2,10 +2,10 @@ import BlogModel from "@/Model/Blog";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 
-export async function POST(res:Response) {
+export async function POST(req:Request) {
     await DbConnect();
     try {
-        const{blog_id,username,title,sub_title,description,img,tags}=await res.json();
+        const{blog_id,username,title,sub_title,description,img,tags}=await req.json();
         const Blog_model={
             username,
             title,

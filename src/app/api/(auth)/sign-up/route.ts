@@ -2,10 +2,10 @@ import {DbConnect} from "@/utils/DbConnection";
 import UserModel from "@/Model/User";
 import bcrypt from 'bcryptjs';
 import ApiResponse from "@/utils/ApiResponse";
-export async function POST(res:Response) {
+export async function POST(req:Request) {
     await DbConnect();
     try {
-        const user_data=await res.json();
+        const user_data=await req.json();
         const {username,email,password}=user_data
         const is_user_there=await UserModel.findOne({username,email});
         if(is_user_there){
