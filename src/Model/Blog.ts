@@ -6,7 +6,8 @@ export interface BlogInterface extends Document{
     sub_title:string,
     description:string,
     img:string,
-    tags:string[]
+    tags:string[],
+    likecnt:string[],
 } 
 const BlogSchema : Schema<BlogInterface>=new Schema({
     username:{
@@ -31,7 +32,8 @@ const BlogSchema : Schema<BlogInterface>=new Schema({
     img:{
         type:String,
     },
-    tags:[String]
+    tags:[String],
+    likecnt:[String]
 },{timestamps:true});
 const BlogModel=mongoose.models.Blogs as mongoose.Model<BlogInterface> || mongoose.model<BlogInterface>('Blogs',BlogSchema);  
 export default BlogModel;   

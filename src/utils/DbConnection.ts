@@ -3,7 +3,7 @@ type connectionObject={
     isConnected?:number
 }
 const connecton :connectionObject ={};
-export async function dbConnect(): Promise<void> {
+export async function DbConnect(): Promise<void> {
     if (connecton.isConnected) {
       console.log('Already connected to the database');
       return;
