@@ -1,6 +1,10 @@
 import mongoose, { Schema,Document} from "mongoose";
+export interface MessageInterface extends Document{
+    user_id:string,
+    comment:string
+}
 const MessageSchema=new Schema({
-    give_username:{
+    user_id:{
         type:String,
         required:true
     },
@@ -9,32 +13,18 @@ const MessageSchema=new Schema({
         required:true,
     }
 });
-// const MessageModel=mongoose.models.Messages as mongoose.Model<Message> || mongoose.model<Message>('Messages',MessageSchema);  
-// const CommentObject={
-//     give_username:{
-//         type:String,
-//         required:true
-//     },
-//     comment:{
-//         type:String,
-//         required:true,
-//     }
-// }
+// const MessageModel=mongoose.models.Messages as mongoose.Model<> || mongoose.model<Message>('Messages',MessageSchema);  
 export interface CommentInterface extends Document{
     to_username:string,
     from_userid:string,
-    comments:string[]
+    Comments:MessageInterface[]
 }
 const CommentSchema:Schema<CommentInterface>=new Schema({
     to_username:{
         type:String,
         required:[true,"Please provide Commentname"]
     },
-    from_userid:{
-        type:String,
-        required:[true,"Please provide Commentname"]
-    },
-    comments:[String]
+    Comments:[MessageSchema]
 });
-const CommentModel=mongoose.models.Comment as mongoose.Model<CommentInterface> || mongoose.model<CommentInterface>('Comment',CommentSchema);  
+const CommentModel=mongoose.models.Comments as mongoose.Model<CommentInterface> || mongoose.model<CommentInterface>('Comments',CommentSchema);  
 export default CommentModel;  
