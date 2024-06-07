@@ -8,6 +8,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import RTE from './Editor'
+import Upload from './Upload'
 const Post_Form = () => {
     const form=useForm<z.infer<typeof BlogSchema>>({
         resolver:zodResolver(BlogSchema),
@@ -20,8 +21,10 @@ const Post_Form = () => {
             tags:[]
         }
     });
-    const onSubmit=()=>{}
+    const onSubmit=(data:z.infer<typeof BlogSchema>)=>{
+    }
   return (
+    <div>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
@@ -41,14 +44,17 @@ const Post_Form = () => {
               <FormControl>
                 <Input placeholder="Sub-Title" {...field} />
               </FormControl>
-              <FormLabel>Write your blog</FormLabel>
+              <FormLabel>Write your blog here</FormLabel>
               <RTE/>
+              <FormLabel>Upload the Cover image of you blog : </FormLabel>
+              <Upload/>
             </FormItem>
           )}
         />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
+    </div>
   )
 }
 
