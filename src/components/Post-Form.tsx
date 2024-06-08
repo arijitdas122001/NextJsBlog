@@ -4,11 +4,11 @@ import { Form, FormControl,FormField, FormItem, FormLabel } from '@/components/u
 import { Input } from '@/components/ui/input'
 import { BlogSchema } from '@/schemas/BlogWriteSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import RTE from './Editor'
-import Upload from './Upload'
+import { Label } from '@radix-ui/react-label'
 const Post_Form = () => {
     const form=useForm<z.infer<typeof BlogSchema>>({
         resolver:zodResolver(BlogSchema),
@@ -16,12 +16,17 @@ const Post_Form = () => {
             username:"",
             title:"",
             sub_title:"",
-            description:"",
-            img:"",
-            tags:[]
+            description:""
         }
     });
+    const [image,setimage]=useState<File | null>(null);
+    const onChangeHandeler=(e:ChangeEvent<HTMLInputElement>)=>{
+      if(e.target.files){
+        setimage(e.target.files[0])
+      }
+    }
     const onSubmit=(data:z.infer<typeof BlogSchema>)=>{
+      console.log({...data,image});
     }
   return (
     <div>
@@ -36,23 +41,38 @@ const Post_Form = () => {
               <FormControl>
                 <Input placeholder="username" {...field} />
               </FormControl>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Title" {...field} />
-              </FormControl>    
-              <FormLabel>Sub-Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Sub-Title" {...field} />
-              </FormControl>
-              <FormLabel>Write your blog here</FormLabel>
-              <RTE/>
-              <FormLabel>Upload the Cover image of you blog : </FormLabel>
-              <Upload/>
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your blog title" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />  
+        <FormField
+          control={form.control}
+          name="sub_title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sub-Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter Subtitle(It will show on the preview)" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <RTE control={form.control} name="description"/>
+        <Input id="image" type='file' placeholder='Upload here' onChange={onChangeHandeler}/>
+       <Label htmlFor='image'>Upload your image here</Label>
         <Button type="submit">Submit</Button>
-      </form>
+      </form> 
     </Form>
     </div>
   )
