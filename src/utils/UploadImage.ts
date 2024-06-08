@@ -1,5 +1,6 @@
-import { v2 as cloudinary } from "cloudinary"
+import cloudinary from "@/lib/cloudinary";
 export const UploadImage=async(file:File,folder:string)=>{
+    try{
     const buffer=await file.arrayBuffer();
     const byte=Buffer.from(buffer);
     return new Promise(async(resolve,reject)=>{
@@ -9,10 +10,13 @@ export const UploadImage=async(file:File,folder:string)=>{
         },
         async (err,result)=>{
             if(err){
-                reject(err);
+                return reject(err);
             }
-            resolve(result);
+            return resolve(result);
         }
     ).end(byte)
     })
+}catch(err){
+    console.log("error while uploading the image");
+}
 }
