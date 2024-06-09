@@ -4,7 +4,10 @@ import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 import { UploadImage } from "@/utils/UploadImage";
 
-export async function POST(req:Request) {
+export async function POST(
+    req:Request,
+    {params}:{params:{slugs:string}}
+) {
     await DbConnect();
     try {
         const blog_data=await req.formData();
@@ -14,14 +17,16 @@ export async function POST(req:Request) {
         const sub_title=blog_data.get("sub_title")as unknown as string
         const description=blog_data.get("description")as unknown as string
         const img_data:any=await UploadImage(img,'blog-gallery');
-        // console.log(img_data);
+        // console.log("img_dat",img_data);
+        const slugString=params.slugs;
+        const tags=slugString.split('-');   
         const new_model={
             username:username,
             title:title,
             sub_title:sub_title,
             description:description,
             img:img_data.secure_url,
-            tags:[]
+            tags:tags
         }
         const blogmodel=new BlogModel(new_model);
         // console.log("till here1")
