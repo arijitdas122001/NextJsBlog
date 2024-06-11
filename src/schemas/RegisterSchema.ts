@@ -6,5 +6,5 @@ export const RegisterSchema=z.object({
                      .max(10,{message:"Ph no should be only 10 digits"}),     
     password:z.string()
                .min(3,{message:"Password Schould be atleast 3 characters"}),
-    img:z.string().optional(),
+               
 });
