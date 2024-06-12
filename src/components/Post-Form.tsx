@@ -10,16 +10,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { BlogSchema } from "@/schemas/BlogWriteSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent,useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import RTE from "./Editor";
 import axios from "axios";
 import tags from "@/data/Tagsarray";
+import { useToast } from "./ui/use-toast";
+import { Loader } from "lucide-react";
 const Post_Form = () => {
   const [image, setimage] = useState<File>();
   const [tempTagArray, settempTagArray] = useState<string[]>(tags);
   const [Tags, setTags] = useState<string[]>([]);
+  const [submitting,setSubmitting]=useState(false);
+  const {toast}=useToast();
   const form = useForm<z.infer<typeof BlogSchema>>({
     resolver: zodResolver(BlogSchema),
     defaultValues: {
@@ -58,6 +62,8 @@ const Post_Form = () => {
   }
   const onSubmit = async (data: z.infer<typeof BlogSchema>) => {
     // console.log(imgdata);
+    setSubmitting(true);
+    try {
       const from_data=new FormData();
         from_data.append("username",data.username)
         from_data.append("title",data.title)
@@ -71,7 +77,20 @@ const Post_Form = () => {
       `http://localhost:3000/api/Blog-Upload/${value}`,
       from_data
     );
-    console.log(res.data)
+    toast({
+      title:"Success",
+      description:res.data.message,
+      variant:"default"
+    })
+    }
+    catch (error) {
+      toast({
+        title:"Failure",
+        description:"Error while posting",
+        variant:"destructive"
+      })
+    }
+    setSubmitting(false);
   };
   return (
     <div>
@@ -151,7 +170,9 @@ const Post_Form = () => {
               </div>
             </div>
           </div>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            {submitting?<Loader/>:"Submit"}
+          </Button>
         </form>
       </Form>
     </div>
