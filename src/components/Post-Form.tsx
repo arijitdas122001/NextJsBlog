@@ -82,6 +82,7 @@ const Post_Form = () => {
       description:res.data.message,
       variant:"default"
     })
+    setSubmitting(false);
     }
     catch (error) {
       toast({
@@ -89,8 +90,9 @@ const Post_Form = () => {
         description:"Error while posting",
         variant:"destructive"
       })
+      setSubmitting(false);
     }
-    setSubmitting(false);
+
   };
   return (
     <div>
