@@ -18,7 +18,7 @@ import axios from "axios";
 import tags from "@/data/Tagsarray";
 import { useToast } from "./ui/use-toast";
 import { Loader } from "lucide-react";
-const Post_Form = () => {
+const Post_Form = ({post}:any) => {
   const [image, setimage] = useState<File>();
   const [tempTagArray, settempTagArray] = useState<string[]>(tags);
   const [Tags, setTags] = useState<string[]>([]);
@@ -27,9 +27,9 @@ const Post_Form = () => {
   const form = useForm<z.infer<typeof BlogSchema>>({
     resolver: zodResolver(BlogSchema),
     defaultValues: {
-      username: "",
+      username: post.username || "",
       title: "",
-      sub_title: "",
+      sub_title: "",  
       description: "",
     },
   });
@@ -105,7 +105,8 @@ const Post_Form = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="username" {...field} />
+                  <Input placeholder="username" 
+                  {...field} />
                 </FormControl>
               </FormItem>
             )}

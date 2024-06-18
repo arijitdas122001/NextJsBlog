@@ -5,12 +5,13 @@ import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { z } from 'zod';
-import {signIn} from 'next-auth/react'
+import {signIn, useSession} from 'next-auth/react'
 import { SignInSchema } from '@/schemas/SignInSchema';
 import { toast } from '@/components/ui/use-toast';
 import { Loader } from 'lucide-react';
 const page = () => {
     const [signingIn,setSigningIn]=useState(false);
+    const {data:session }=useSession();
     const form=useForm<z.infer<typeof SignInSchema>>();
     const onSubmit=async(data:z.infer<typeof SignInSchema>)=>{
         setSigningIn(true)
@@ -65,6 +66,7 @@ const page = () => {
                 title:"Success",
                 description:"Signed in successfully"
             })
+            console.log(session?.user);
             setSigningIn(false);
         }
     }
