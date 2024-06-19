@@ -11,7 +11,7 @@ import { toast } from '@/components/ui/use-toast';
 import { Loader } from 'lucide-react';
 const page = () => {
     const [signingIn,setSigningIn]=useState(false);
-    const {data:session }=useSession();
+    // const {data:session }=useSession();
     const form=useForm<z.infer<typeof SignInSchema>>();
     const onSubmit=async(data:z.infer<typeof SignInSchema>)=>{
         setSigningIn(true)
@@ -66,7 +66,7 @@ const page = () => {
                 title:"Success",
                 description:"Signed in successfully"
             })
-            console.log(session?.user);
+            // console.log(session?.user);
             setSigningIn(false);
         }
     }

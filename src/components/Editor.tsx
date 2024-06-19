@@ -2,7 +2,7 @@
 import React,{useRef} from 'react'
 import { Editor } from '@tinymce/tinymce-react';
 import { Controller } from 'react-hook-form';
-const RTE = ({control,name}:any) => {
+const RTE = ({control,name,value}:any) => {
     const editorRef:any = useRef();
   return (
     <div>
@@ -13,7 +13,7 @@ const RTE = ({control,name}:any) => {
         <Editor
         apiKey="udsi82f7q32y5zzsus4zskpa4uy4532c1vqybmn1vg65ezmu"
         onInit={(_evt, editor) => editorRef.current = editor}
-        initialValue="<p>This is the initial content of the editor.</p>"
+        initialValue={value}
         init={{
           height: 500,
           menubar: false,

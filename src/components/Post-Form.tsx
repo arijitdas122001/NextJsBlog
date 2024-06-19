@@ -17,21 +17,22 @@ import RTE from "./Editor";
 import axios from "axios";
 import tags from "@/data/Tagsarray";
 import { useToast } from "./ui/use-toast";
-import { Loader } from "lucide-react";
+import { AwardIcon, Loader } from "lucide-react";
+import { useSession } from "next-auth/react";
 const Post_Form = ({post}:any) => {
+  // console.log(post?.title);
   const [image, setimage] = useState<File>();
   const [tempTagArray, settempTagArray] = useState<string[]>(tags);
-  const [Tags, setTags] = useState<string[]>([]);
+  const [Tags, setTags] = useState<string[]>(post?.tags || []);
   const [submitting,setSubmitting]=useState(false);
   const {toast}=useToast();
+  const {data:session}=useSession();
+  // console.log(session?.user);
+  const userobj=session?.user;
+  const name:string=userobj?.username!;
+  // console.log(name);
   const form = useForm<z.infer<typeof BlogSchema>>({
     resolver: zodResolver(BlogSchema),
-    defaultValues: {
-      username: post.username || "",
-      title: "",
-      sub_title: "",  
-      description: "",
-    },
   });
   const onChangeHandeler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -73,6 +74,14 @@ const Post_Form = ({post}:any) => {
     // from_data.append("tags",[])
     console.log(image);
     const value=slugTransfrom();
+    if(post){
+      const res=await axios.post(`http://localhost:3000/api/Blog-Edit/${value}/${post?._id}`,from_data);
+      toast({
+        title:"Success",
+        description:res.data.message,
+        variant:"default"
+      })
+    }else{
     const res = await axios.post(
       `http://localhost:3000/api/Blog-Upload/${value}`,
       from_data
@@ -82,8 +91,9 @@ const Post_Form = ({post}:any) => {
       description:res.data.message,
       variant:"default"
     })
-    setSubmitting(false);
-    }
+  }
+  setSubmitting(false);
+ }
     catch (error) {
       toast({
         title:"Failure",
@@ -106,7 +116,9 @@ const Post_Form = ({post}:any) => {
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input placeholder="username" 
-                  {...field} />
+                  {...field} 
+                  defaultValue={userobj?.username}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -118,7 +130,9 @@ const Post_Form = ({post}:any) => {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your blog title" {...field} />
+                  <Input placeholder="Enter your blog title" {...field}
+                  defaultValue={post?.title}
+                   />
                 </FormControl>
               </FormItem>
             )}
@@ -133,6 +147,7 @@ const Post_Form = ({post}:any) => {
                   <Input
                     placeholder="Enter Subtitle(It will show on the preview)"
                     {...field}
+                    defaultValue={post?.sub_title}
                   />
                 </FormControl>
               </FormItem>
@@ -140,7 +155,7 @@ const Post_Form = ({post}:any) => {
           />
           <div className="flex gap-2 flex-col align-middle">
             <label>Write Your blog here</label>
-            <RTE control={form.control} name="description" />
+            <RTE control={form.control} name="description" value={post?.description} />
             <label htmlFor="image">Upload your image here</label>
             <Input
               id="image"
