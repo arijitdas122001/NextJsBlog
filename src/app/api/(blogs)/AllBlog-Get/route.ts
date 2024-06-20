@@ -8,8 +8,7 @@ export async function GET(){
         const All_Blogs=await BlogModel.find().sort({createdAt:-1});
        return Response.json(
         {
-            success:true,
-            Blogs:All_Blogs
+            All_Blogs
 
         },
         {status:200}
