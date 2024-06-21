@@ -1,4 +1,6 @@
 'use client'
+import Blogcard from '@/components/Blogcard';
+import { BackgroundBeams } from '@/components/ui/background-beams';
 import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -25,14 +27,11 @@ const AllBlogs = () => {
         FetchAllBlogs();
     },[])
   return (
-    <div>
-    <div className="max-w-5xl mx-auto px-8">
-      <div>
+    <div className="flex gap-3 justify-center flex-wrap-reverse">
+      <BackgroundBeams/>
         {allBlogs.map((ele:any)=>(
-            <div>{ele.username}</div>
+            <Blogcard blog={ele}/>
         ))}
-      </div>
-    </div>
     </div>
   )
 }
