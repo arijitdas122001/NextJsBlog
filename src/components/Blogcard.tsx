@@ -1,6 +1,5 @@
 import React from 'react'
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"; 
-import { Button } from './ui/button'
 import Image from 'next/image'
 const Blogcard = ({blog}:any) => {
   const{title,sub_title,img}=blog;

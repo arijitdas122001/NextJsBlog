@@ -10,6 +10,7 @@ export async function POST(
     await DbConnect();
     try {
         const blog_data=await req.formData();
+        console.log(params);
         const slugString=params.slugs;
         const tags=slugString.split('-');
         const img=blog_data.get("img") as unknown as File
@@ -23,7 +24,7 @@ export async function POST(
             title:title,
             sub_title:sub_title,
             description:description,
-            tags:tags
+            tags:tags   
         };
         const blog_id=params.blogid;
         await BlogModel.findByIdAndUpdate(blog_id,

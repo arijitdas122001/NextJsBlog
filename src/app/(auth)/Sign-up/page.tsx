@@ -72,8 +72,8 @@ const page = () => {
     setSigningup(false);
     }
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-cyan-900">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white shadow-md text-black rounded-3xl">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join with the world
@@ -125,7 +125,7 @@ const page = () => {
               onChange={onChangeHandeler}
               placeholder="Upload your image"
             />
-        <Button type="submit">
+        <Button type="submit" className="bg-black text-white">
           {signingup?<Loader/>:"Sign Up"}
         </Button>
           </form>

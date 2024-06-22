@@ -71,8 +71,8 @@ const page = () => {
         }
     }
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-    <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-cyan-900">
+    <div className="w-full max-w-md p-8 space-y-8 shadow-md bg-white rounded-xl">
       <div className="text-center">
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
           Join Now
@@ -109,7 +109,7 @@ const page = () => {
           </FormItem>
         )}
       />
-      <Button type="submit">
+      <Button type="submit" className="bg-black text-white">
        {signingIn?<Loader/>:"Sign In"}
       </Button>
         </form>

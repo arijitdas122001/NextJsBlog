@@ -105,7 +105,7 @@ const Post_Form = ({post}:any) => {
 
   };
   return (
-    <div>
+    <div className="text-black">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -178,7 +178,7 @@ const Post_Form = ({post}:any) => {
               <div className="flex gap-5">
                 {tempTagArray.map((ele,i) => (
                   <div
-                    className="bg-gray-400 rounded-lg p-1 font-serif hover:cursor-pointer  "
+                    className="bg-gray-400 rounded-xl p-1 font-serif hover:cursor-pointer  "
                     onClick={() => handelTagClick(ele)}
                     key={i}
                   >

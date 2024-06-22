@@ -27,7 +27,7 @@ const AllBlogs = () => {
         FetchAllBlogs();
     },[])
   return (
-    <div className="flex gap-3 justify-center flex-wrap-reverse">
+    <div className="flex gap-3 justify-center flex-wrap-reverse bg-cyan-900 ">
       <BackgroundBeams/>
         {allBlogs.map((ele:any)=>(
             <Blogcard blog={ele}/>
