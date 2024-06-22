@@ -1,12 +1,11 @@
 'use client'
 import Post_Form from "@/components/Post-Form";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import {useParams} from "next/navigation";
 import { useEffect, useState } from "react";
 const page = () => {
-  const searchParams=useSearchParams();
-  const blogid=searchParams.get("blogid");
-  // console.log(blogid); 
+  const params=useParams();
+  const blogid=params.blogid;
   const [post,setpost]=useState();
   useEffect(()=>{
     const onSubmit=async()=>{
