@@ -1,6 +1,6 @@
 'use client'
 import React,{useRef} from 'react'
-import { Editor } from '@tinymce/tinymce-react';
+import { Editor} from '@tinymce/tinymce-react';
 import { Controller } from 'react-hook-form';
 const RTE = ({control,name,value}:any) => {
     const editorRef:any = useRef();
