@@ -8,6 +8,8 @@ export interface BlogInterface extends Document{
     img:string,
     tags:string[],
     likecnt:string[],
+    createdAt:Date,
+    updatedAt:Date
 } 
 const BlogSchema : Schema<BlogInterface>=new Schema({
     username:{
