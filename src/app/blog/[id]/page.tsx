@@ -38,45 +38,51 @@ const Blog = () => {
     },[blog_id])
     const date=new Date(data?.createdAt!).toLocaleDateString();
   return (
-    <div className="flex min-h-screen items-center justify-center bg-cyan-800">
-  < div className="w-full max-w-screen-lg space-y-8 bg-white p-6 rounded-3xl">
-    <div className="text-4xl font-bold">{data?.title}</div>
-    <div> 
-      <div className="text-xl">{data?.username}</div>
-      <div className='flex gap-3'>
-        <span>2 min read</span>
-        <span>.</span>
-        <span>{date}</span>
+    <div className="flex min-h-screen items-center justify-center bg-cyan-800 relative">
+      <div className="bg-gray-400 w-full absolute top-10 right-0 left-[850px]">
+      <div className="flex flex-col p-5">
+      <div>what do want to comment</div>
+      <textarea placeholder="please write here" className="bg-blue-300"></textarea>
       </div>
-    </div>
-    <div className="flex flex-col gap-2">
-      <hr className="bg-black" />
-      <div className="flex gap-3 font-bold">
-        <div>Like</div>
-        <div>Comment</div>
       </div>
-      <hr />
-    </div>
-    <div className="flex justify-center">
-      <Image
-      src={data?.img!}
-      height={300}
-      width={500}
-      alt='No image'
-      />
-    </div>
-   {/* <div dangerouslySetInnerHTML={{ __html: data?.description!}}></div> */}
-   <div>{parse(description)}</div>
-    <div className="flex flex-col gap-2">
-      <hr className="bg-black" />
-      <div className="flex gap-3 font-bold">
-        <div>Like</div>
-        <div>Comment</div>
+    < div className="w-full max-w-screen-lg space-y-8 bg-white p-6 rounded-3xl">
+      <div className="text-4xl font-bold">{data?.title}</div>
+      <div> 
+        <div className="text-xl">{data?.username}</div>
+        <div className='flex gap-3'>
+          <span>2 min read</span>
+          <span>.</span>
+          <span>{date}</span>
+        </div>
       </div>
-      <hr className="bg-black" />
+      <div className="flex flex-col gap-2">
+        <hr className="bg-black" />
+        <div className="flex gap-3 font-bold">
+          <div>Like</div>
+          <div>Comment</div>
+        </div>
+        <hr />
+      </div>
+      <div className="flex justify-center">
+        <Image
+        src={data?.img!}
+        height={300}
+        width={500}
+        alt='No image'
+        />
+      </div>
+     {/* <div dangerouslySetInnerHTML={{ __html: data?.description!}}></div> */}
+     <div>{parse(description)}</div>
+      <div className="flex flex-col gap-2">
+        <hr className="bg-black" />
+        <div className="flex gap-3 font-bold">
+          <div>Like</div>
+          <div>Comment</div>
+        </div>
+        <hr className="bg-black" />
+      </div>
     </div>
   </div>
-</div>
   )
 }
 
