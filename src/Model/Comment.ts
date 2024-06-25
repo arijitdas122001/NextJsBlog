@@ -16,14 +16,13 @@ const MessageSchema=new Schema({
 // const MessageModel=mongoose.models.Messages as mongoose.Model<> || mongoose.model<Message>('Messages',MessageSchema);  
 export interface CommentInterface extends Document{
     to_username:string,
-    from_userid:string,
     Comments:MessageInterface[]
 }
 const CommentSchema:Schema<CommentInterface>=new Schema({
     to_username:{
         type:String,
         required:[true,"Please provide Commentname"]
-    },
+    },  
     Comments:[MessageSchema]
 });
 const CommentModel=mongoose.models.Comments as mongoose.Model<CommentInterface> || mongoose.model<CommentInterface>('Comments',CommentSchema);  
