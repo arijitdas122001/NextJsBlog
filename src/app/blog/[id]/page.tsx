@@ -44,9 +44,10 @@ const Blog = () => {
       console.log(showcomment);
     }
   return (
-    <div className="">
-      {showcomment && <div className="bg-slate-500 absolute left-100 right-rounded-2xl z-10">
-        <div className="flex flex-col gap-5">
+    <div className="flex min-h-screen items-center justify-center bg-cyan-800 z-0 h-full  ">
+    < div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flex-2">
+    {showcomment && <div className="bg-white left-100 right-rounded-2xl absolute left-3/4 top-0">
+        <div className="flex flex-col gap-5 p-10 border-2 border-black">
     <div className="flex flex-col w-full">
       <div>what do want to comment</div>
       <textarea placeholder="please write here" className="bg-blue-300 w-30"></textarea>
@@ -54,13 +55,25 @@ const Blog = () => {
     <div className="flex flex-col gap-5">
       <div>
         <div>
-          <span className="font-semibold text-xl">user 2</span>
+          user2
         </div>
         <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia ipsum numquam nulla cumque qui nihil. Recusandae, quod. Doloremque asperiores cupiditate necessitatibus aspernatur quod illo ipsam minima. Iusto neque odio voluptatem!</div>
       </div>
       <div>
         <div>
-          <span>user 2</span>
+          user2
+        </div>
+        <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia ipsum numquam nulla cumque qui nihil. Recusandae, quod. Doloremque asperiores cupiditate necessitatibus aspernatur quod illo ipsam minima. Iusto neque odio voluptatem!</div>
+      </div>
+      <div>
+        <div>
+          user2
+        </div>
+        <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia ipsum numquam nulla cumque qui nihil. Recusandae, quod. Doloremque asperiores cupiditate necessitatibus aspernatur quod illo ipsam minima. Iusto neque odio voluptatem!</div>
+      </div>
+      <div>
+        <div>
+          user2
         </div>
         <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia ipsum numquam nulla cumque qui nihil. Recusandae, quod. Doloremque asperiores cupiditate necessitatibus aspernatur quod illo ipsam minima. Iusto neque odio voluptatem!</div>
       </div>
@@ -68,8 +81,6 @@ const Blog = () => {
   </div>
   </div>
 }
-    <div className="flex min-h-screen items-center justify-center bg-cyan-800 z-0">
-    < div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flext-2">
       <div className="text-4xl font-bold">{data?.title}</div>
       <div> 
         <div className="text-xl">{data?.username}</div>
@@ -105,7 +116,6 @@ const Blog = () => {
         </div>
         <hr className="bg-black" />
       </div>
-    </div>
     </div>
     </div>
   )
