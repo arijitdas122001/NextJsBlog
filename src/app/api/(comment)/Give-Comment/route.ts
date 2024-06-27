@@ -1,37 +1,38 @@
 
-import CommentModel, { MessageInterface } from "@/Model/Comment";
+import { CommentModel, InterMessage} from "@/Model/Comment";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 
 export async function POST(req:Request) {
     await DbConnect();
     try {
-        const {recv_cmt_username,give_cmt_userid,comment}=await req.json();
+        const {blogid,username,comment}=await req.json();
         // console.log("reaced till here");
-        // console.log(recv_cmt_username);
-        const model=await CommentModel.findOne({to_username:recv_cmt_username}).exec();
+        console.log(blogid,username);
+        const model=await CommentModel.findOne({blog_id:blogid}).exec();
         console.log("reached till here 2");
         if(!model){
-            console.log(model);
             const newcomment={
-                user_id:give_cmt_userid,
+                give_username:username,
                 comment:comment
             }
-            const newModel=new CommentModel({
-                to_username:recv_cmt_username,
-                Comments:[newcomment as MessageInterface]
-            })
+            const newModel={
+                blog_id:blogid,
+                Comments:[newcomment as InterMessage]
+            }
+            const newCommentModel=new CommentModel(newModel);
+            // console.log(newCommentModel);
             // newModel.Comments.push(newComment as Message);
             // console.log("recheanig hereh blall");
-            await newModel.save();
+            await newCommentModel.save();
         }else{
             const newcomment={
-                user_id:give_cmt_userid,
-                comment:comment
+                give_username:username,
+                comment:comment 
             }
             await CommentModel.findByIdAndUpdate(
                 model._id,
-                {$push:{Comments:newcomment as MessageInterface}}
+                {$push:{Comments:newcomment as InterMessage}}
             )
         }
         return ApiResponse(200,"Commented successfully",true);

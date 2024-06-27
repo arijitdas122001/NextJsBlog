@@ -1,13 +1,13 @@
-import CommentModel from "@/Model/Comment";
+import {CommentModel} from "@/Model/Comment";
 import ApiResponse from "@/utils/ApiResponse";
 
 export async function DELETE(req:Request) {
     try {
-        const {username,del_user_id}=await req.json();
-        const model=await CommentModel.findOne({to_username:username});
+        const {blogid,del_user_name}=await req.json();
+        const model=await CommentModel.findOne({blog_id:blogid});
         await CommentModel.findByIdAndUpdate(
             model?._id,
-            {$pull:{Comments:{user_id:del_user_id}}},
+            {$pull:{Comments:{give_username:del_user_name}}},
         )
         return ApiResponse(200,"Deleted It",true);
     } catch (error) {
