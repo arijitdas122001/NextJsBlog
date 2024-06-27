@@ -8,7 +8,7 @@ import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { CommentInterface, MessageInterface } from "@/Model/Comment";
+import { CommentInterface} from "@/Model/Comment";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
