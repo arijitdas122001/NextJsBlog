@@ -8,7 +8,7 @@ import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { CommentInterface} from "@/Model/Comment";
+import { FeedBack, InterMessage } from "@/Model/Comment";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
@@ -16,7 +16,7 @@ const Blog = () => {
   const [loading, setloading] = useState(false);
   const [data, setData] = useState<BlogInterface>();
   const [showcomment, setshowcomment] = useState(false);
-  const [comments, setComments] = useState<CommentInterface>();
+  const [comments, setComments] = useState<FeedBack>();
   const [description, setdescription] = useState("");
   const [error, seterror] = useState(false);
   const { data: session } = useSession();
@@ -48,13 +48,23 @@ const Blog = () => {
     setshowcomment(!showcomment);
     // console.log(showcomment);
     const commentsRes = await axios.post(
-      `http://localhost:3000/api/Fetch-Comments/${session?.user.username}`
+      `http://localhost:3000/api/Fetch-Comments/${blog_id}`
     );
     setComments(commentsRes.data.model);
     console.log(comments)
   };
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-cyan-800 h-full">
+    <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
+      {showcomment && (
+        <div className="absolute top-0 left-2/3 bg-gray-500">
+          {comments?.Comments.map((ele, i) => (
+            <div key={i}>
+              <div>{ele.give_username}</div>
+              <div>{ele.comment}</div>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flex-2">
         <div className="text-4xl font-bold">{data?.title}</div>
         <div>
@@ -87,18 +97,6 @@ const Blog = () => {
               <div>Like</div>
               <div>Comment</div>
             </div>
-            {showcomment && (
-              <div>
-                {comments?.Comments.map((ele,i)=>(
-                  <div key={i}>
-                  <div>{ele.user_id}</div>
-                  <div>
-                    {ele.comment}
-                  </div>
-                </div>
-                ))}
-              </div>
-            )}
           </div>
           <hr className="bg-black" />
         </div>

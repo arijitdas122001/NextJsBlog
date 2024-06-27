@@ -1,29 +1,31 @@
 import mongoose, { Schema,Document} from "mongoose";
-export interface MessageInterface extends Document{
-    user_id:string,
+export interface InterMessage extends Document{
+    give_username:string,
     comment:string
 }
-const MessageSchema=new Schema({
-    user_id:{
+const MessageSchema:Schema<InterMessage>=new Schema({
+    give_username:{
         type:String,
-        required:true
+        required:[true,"Please provide username"]
+ 
     },
     comment:{
         type:String,
         required:true,
     }
 });
+const MessageModel=mongoose.models.Comments as mongoose.Model<InterMessage> || mongoose.model<InterMessage>('Messages',MessageSchema);  
 // const MessageModel=mongoose.models.Messages as mongoose.Model<> || mongoose.model<Message>('Messages',MessageSchema);  
-export interface CommentInterface extends Document{
-    to_username:string,
-    Comments:MessageInterface[]
+export interface FeedBack extends Document{
+    blog_id:string,
+    Comments:InterMessage[]
 }
-const CommentSchema:Schema<CommentInterface>=new Schema({
-    to_username:{
+const CommentSchema:Schema<FeedBack>=new Schema({
+    blog_id:{
         type:String,
         required:[true,"Please provide Commentname"]
     },  
     Comments:[MessageSchema]
 });
-const CommentModel=mongoose.models.Comments as mongoose.Model<CommentInterface> || mongoose.model<CommentInterface>('Comments',CommentSchema);  
-export default CommentModel;  
+const CommentModel=mongoose.models.Comments as mongoose.Model<FeedBack> || mongoose.model<FeedBack>('Comments',CommentSchema);  
+export {CommentModel,MessageModel};  
