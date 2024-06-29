@@ -9,21 +9,25 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { FeedBack, InterMessage } from "@/Model/Comment";
-import { Editor } from "@tinymce/tinymce-react";
 import RTE from "@/components/Editor";
-import { Form, useForm } from "react-hook-form";
+import {useForm } from "react-hook-form";
+import { z } from "zod";
+import { CommentSchema } from "@/schemas/CommentSchema";
+import { Form } from "@/components/ui/form";
+import { Loader } from "lucide-react";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
   const { toast } = useToast();
   const [loading, setloading] = useState(false);
+  const [commentLoader, setcommentLoader] = useState(false);
   const [data, setData] = useState<BlogInterface>();
   const [showcomment, setshowcomment] = useState(false);
   const [comments, setComments] = useState<FeedBack>();
   const [description, setdescription] = useState("");
   const [error, seterror] = useState(false);
   const { data: session } = useSession();
-  const form=useForm();
+  const form=useForm<z.infer<typeof CommentSchema>>();
   useEffect(() => {
     setloading(true);
     const fetchData = async () => {
@@ -46,18 +50,34 @@ const Blog = () => {
     };
     fetchData();
     setloading(false);
-  }, [blog_id]);
+  }, []);
   const date = new Date(data?.createdAt!).toLocaleDateString();
-  const handelClick = async () => {
+  const LoadComment = async () => {
     setshowcomment(!showcomment);
     // console.log(showcomment);
     const commentsRes = await axios.post(
       `http://localhost:3000/api/Fetch-Comments/${blog_id}`
     );
     setComments(commentsRes.data.model);
-    console.log(comments)
+    // console.log(comments)
   };
-  const Commentdate = new Date(comments?.createdAt!).toLocaleDateString();
+  const GiveComment=async(data: z.infer<typeof CommentSchema>)=>{
+    // console.log(data);
+    setcommentLoader(true)
+    const commentBody={
+    "blogid":blog_id,
+    "username":session?.user.username,
+    "comment":data.comment
+    }
+    console.log("till here");
+    const res=await axios.post('http://localhost:3000/api/Give-Comment',commentBody);
+    setshowcomment(!showcomment);
+    LoadComment();
+    toast({
+      title:res.data.message,
+    })
+    setcommentLoader(false);
+  }
   return (
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
@@ -70,20 +90,23 @@ const Blog = () => {
         {/* <input className="outline-none border-none pb-20 overflow-x-hidden" placeholder="write your coment here"></input> */}
         <label className="text-2xl">Comment Here</label>
         <Form {...form}>
-        <RTE control={form.control} name="Post your comment here" height={200}/>
+        <form onSubmit={form.handleSubmit(GiveComment)} className="space-y-8">
+        <RTE control={form.control} name="comment" height={200}/>
+        <Button type="submit" className="bg-green-500">{commentLoader?<Loader/>:"Submit"}</Button>
+        </form> 
         </Form>
         <div>
-        <button className="bg-green-500 p-2 rounded-3xl">Respond</button>
+        {/* <button className="bg-green-500 p-2 rounded-3xl" onClick={onSubmit}>Respond</button> */}
         </div>
       </div>
     </div>
           {comments?.Comments.map((ele, i) => (
-            <div key="{i}" className="flex-2 flex flex-col gap-2">
+            <div key={i} className="flex-2 flex flex-col gap-2">
             <div>
             <div className="text-lg">{ele.give_username}</div>
-            <div className="">{Commentdate?Commentdate:""}</div>
+            <div className="">{ele.createdAt? new Date(ele.createdAt).toLocaleTimeString():"posting data"}</div>  
             </div>
-            <div>{ele.comment}</div>
+            <div>{parse(ele.comment)}</div>
             <hr className="bg-black"/>
           </div>
           ))}
@@ -105,9 +128,9 @@ const Blog = () => {
           <hr className="bg-black" />
           <div className="flex gap-3 font-bold">
             <div>Like</div>
-            <Button className="hover:cursor-pointer" onClick={handelClick}>
+            <button className="hover:cursor-pointer" onClick={LoadComment}>
               Comment
-            </Button>
+            </button>
           </div>
           <hr />
         </div>
