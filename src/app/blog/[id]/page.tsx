@@ -8,13 +8,13 @@ import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { FeedBack, InterMessage } from "@/Model/Comment";
+import { FeedBack} from "@/Model/Comment";
 import RTE from "@/components/Editor";
 import {useForm } from "react-hook-form";
 import { z } from "zod";
 import { CommentSchema } from "@/schemas/CommentSchema";
 import { Form } from "@/components/ui/form";
-import { Loader } from "lucide-react";
+import { Heart, Loader, MessageCircle } from "lucide-react";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
@@ -23,13 +23,14 @@ const Blog = () => {
   const [commentLoader, setcommentLoader] = useState(false);
   const [data, setData] = useState<BlogInterface>();
   const [showcomment, setshowcomment] = useState(false);
+  const [givenLike,setGivenLike]=useState(false);
   const [comments, setComments] = useState<FeedBack>();
   const [description, setdescription] = useState("");
   const [error, seterror] = useState(false);
   const { data: session } = useSession();
   const form=useForm<z.infer<typeof CommentSchema>>();
   useEffect(() => {
-    setloading(true);
+    setloading(true); 
     const fetchData = async () => {
       try {
         const res = await axios.post(
@@ -78,15 +79,26 @@ const Blog = () => {
     })
     setcommentLoader(false);
   }
+  const GiveLike=async()=>{
+    setGivenLike(true);
+    const res=await axios.post('http://localhost:3000/api/Give-Like',{
+      "recv_like_username":data?.username,
+    "from_username":session?.user.username,
+    "blog_id":blog_id
+    });
+    toast({
+      title:res.data.message
+    })
+  }
   return (
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
-        <div className="fixed top-0 left-2/3  h-screen bg-white shadow-2xl overflow-x-scroll">
+        <div className="fixed top-0 left-2/3 h-screen bg-white shadow-2xl overflow-x-scroll transition-transfrom ease-in-out delay-500">
         <div className="p-5">
         <div className="flex flex-col gap-6">
         <div className="flex-1">
-      <div className="bg-white flex flex-col gap-2  p-5 shadow-lg">
-        <div className="font-semibold">user1</div>
+      <div className="bg-white flex flex-col gap-2  p-5 shadow-xl">
+        <div className="font-semibold">{session?.user.username}</div>
         {/* <input className="outline-none border-none pb-20 overflow-x-hidden" placeholder="write your coment here"></input> */}
         <label className="text-2xl">Comment Here</label>
         <Form {...form}>
@@ -126,17 +138,20 @@ const Blog = () => {
         </div>
         <div className="flex flex-col gap-2">
           <hr className="bg-black" />
-          <div className="flex gap-3 font-bold">
-            <div>Like</div>
+          <div className="flex gap-7 font-bold">
+            <div className="hover:cursor-pointer flex gap-2">
+            <Heart color="red" fill={givenLike?"red":"white"} onClick={GiveLike}/>
+            <span>{givenLike?data?.likecnt.length!+1:data?.likecnt.length}</span>
+            </div>
             <button className="hover:cursor-pointer" onClick={LoadComment}>
-              Comment
+              <MessageCircle/>
             </button>
           </div>
           <hr />
         </div>
         <div className="flex justify-center">
           <Image src={data?.img!} height={300} width={500} alt="No image" />
-        </div>
+        </div>  
         {/* <div dangerouslySetInnerHTML={{ __html: data?.description!}}></div> */}
         <div>{parse(description)}</div>
         <div className="flex flex-col gap-2">

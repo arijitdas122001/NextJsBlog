@@ -54,7 +54,7 @@ const page = () => {
                   });
             }else{
                 toast({
-                    title: 'Error',
+                    title: 'Login Failed',
                     description: res.error,
                     variant: 'destructive',
                   });
