@@ -2,6 +2,8 @@ import mongoose, { Schema,Document} from "mongoose";
 export interface InterMessage extends Document{
     give_username:string,
     comment:string,
+    createdAt:Date,
+    updatedAt:Date
 }
 const MessageSchema:Schema<InterMessage>=new Schema({
     give_username:{
@@ -13,14 +15,12 @@ const MessageSchema:Schema<InterMessage>=new Schema({
         type:String,
         required:true,
     }
-});
+},{timestamps:true});
 const MessageModel=mongoose.models.Comments as mongoose.Model<InterMessage> || mongoose.model<InterMessage>('Messages',MessageSchema);  
 // const MessageModel=mongoose.models.Messages as mongoose.Model<> || mongoose.model<Message>('Messages',MessageSchema);  
 export interface FeedBack extends Document{
     blog_id:string,
     Comments:InterMessage[],
-    createdAt:Date,
-    updatedAt:Date
 }
 const CommentSchema:Schema<FeedBack>=new Schema({
     blog_id:{
