@@ -9,6 +9,9 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { FeedBack, InterMessage } from "@/Model/Comment";
+import { Editor } from "@tinymce/tinymce-react";
+import RTE from "@/components/Editor";
+import { Form, useForm } from "react-hook-form";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
@@ -20,6 +23,7 @@ const Blog = () => {
   const [description, setdescription] = useState("");
   const [error, seterror] = useState(false);
   const { data: session } = useSession();
+  const form=useForm();
   useEffect(() => {
     setloading(true);
     const fetchData = async () => {
@@ -53,18 +57,40 @@ const Blog = () => {
     setComments(commentsRes.data.model);
     console.log(comments)
   };
+  const Commentdate = new Date(comments?.createdAt!).toLocaleDateString();
   return (
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
-        <div className="absolute top-0 left-2/3 bg-gray-500">
-          {comments?.Comments.map((ele, i) => (
-            <div key={i}>
-              <div>{ele.give_username}</div>
-              <div>{ele.comment}</div>
-            </div>
-          ))}
+        <div className="fixed top-0 left-2/3  h-screen bg-white shadow-2xl overflow-x-scroll">
+        <div className="p-5">
+        <div className="flex flex-col gap-6">
+        <div className="flex-1">
+      <div className="bg-white flex flex-col gap-2  p-5 shadow-lg">
+        <div className="font-semibold">user1</div>
+        {/* <input className="outline-none border-none pb-20 overflow-x-hidden" placeholder="write your coment here"></input> */}
+        <label className="text-2xl">Comment Here</label>
+        <Form {...form}>
+        <RTE control={form.control} name="Post your comment here" height={200}/>
+        </Form>
+        <div>
+        <button className="bg-green-500 p-2 rounded-3xl">Respond</button>
         </div>
-      )}
+      </div>
+    </div>
+          {comments?.Comments.map((ele, i) => (
+            <div key="{i}" className="flex-2 flex flex-col gap-2">
+            <div>
+            <div className="text-lg">{ele.give_username}</div>
+            <div className="">{Commentdate?Commentdate:""}</div>
+            </div>
+            <div>{ele.comment}</div>
+            <hr className="bg-black"/>
+          </div>
+          ))}
+          </div>
+          </div>
+        </div>
+        )}
       <div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flex-2">
         <div className="text-4xl font-bold">{data?.title}</div>
         <div>

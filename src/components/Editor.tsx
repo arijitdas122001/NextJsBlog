@@ -2,7 +2,7 @@
 import React,{useRef} from 'react'
 import { Editor} from '@tinymce/tinymce-react';
 import { Controller } from 'react-hook-form';
-const RTE = ({control,name,value}:any) => {
+const RTE = ({control,name,value,height}:any) => {
     const editorRef:any = useRef();
   return (
     <div>
@@ -15,7 +15,7 @@ const RTE = ({control,name,value}:any) => {
         onInit={(_evt, editor) => editorRef.current = editor}
         initialValue={value}
         init={{
-          height: 500,
+          height: height?height:500,
           menubar: false,
           plugins: [
             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
