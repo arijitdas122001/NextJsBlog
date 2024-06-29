@@ -71,8 +71,8 @@ const Blog = () => {
     }
     console.log("till here");
     const res=await axios.post('http://localhost:3000/api/Give-Comment',commentBody);
-    setshowcomment(!showcomment);
     LoadComment();
+    setshowcomment(true);
     toast({
       title:res.data.message,
     })
@@ -104,9 +104,9 @@ const Blog = () => {
             <div key={i} className="flex-2 flex flex-col gap-2">
             <div>
             <div className="text-lg">{ele.give_username}</div>
-            <div className="">{ele.createdAt? new Date(ele.createdAt).toLocaleTimeString():"posting data"}</div>  
+            <div className="">{ele.createdAt?new Date(ele.createdAt).toLocaleTimeString():"posting date"}</div>  
             </div>
-            <div>{parse(ele.comment)}</div>
+            <div dangerouslySetInnerHTML={{ __html: ele?.comment}}></div>
             <hr className="bg-black"/>
           </div>
           ))}
