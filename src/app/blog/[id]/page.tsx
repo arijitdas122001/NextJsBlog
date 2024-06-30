@@ -143,9 +143,9 @@ const Blog = () => {
             <Heart color="red" fill={givenLike?"red":"white"} onClick={GiveLike}/>
             <span>{givenLike?data?.likecnt.length!+1:data?.likecnt.length}</span>
             </div>
-            <button className="hover:cursor-pointer" onClick={LoadComment}>
+            <div className="hover:cursor-pointer" onClick={LoadComment}>
               <MessageCircle/>
-            </button>
+            </div>
           </div>
           <hr />
         </div>
@@ -158,8 +158,13 @@ const Blog = () => {
           <hr className="bg-black" />
           <div>
             <div className="flex gap-3 font-bold">
-              <div>Like</div>
-              <div>Comment</div>
+            <div className="hover:cursor-pointer flex gap-2">
+            <Heart color="red" fill={givenLike?"red":"white"} onClick={GiveLike}/>
+            <span>{givenLike?data?.likecnt.length!+1:data?.likecnt.length}</span>
+            </div>
+            <div className="hover:cursor-pointer" onClick={LoadComment}>
+              <MessageCircle/>
+            </div>
             </div>
           </div>
           <hr className="bg-black" />
