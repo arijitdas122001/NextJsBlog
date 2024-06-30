@@ -1,6 +1,6 @@
 import mongoose, { Schema,Document } from "mongoose";
-import { number, string } from "zod";
 export interface BlogInterface extends Document{
+    _id:string,
     username:string,
     title:string,
     sub_title:string,

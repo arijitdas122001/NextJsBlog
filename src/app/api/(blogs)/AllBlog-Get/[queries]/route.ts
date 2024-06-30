@@ -1,5 +1,4 @@
 import BlogModel from "@/Model/Blog";
-import tags from "@/data/Tagsarray";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 
