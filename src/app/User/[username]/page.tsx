@@ -40,15 +40,15 @@ const UserPage = () => {
   } ;
   return (
     <div>
-      <div className="flex justify-evenly bg-slate-400">
-        <div className="bg-pink-300 flex-1">
+      <div className="flex justify-evenly ">
+        <div className="flex-1">
           <div>
             <div className="text-7xl p-8">Arijit Das</div>
-            <div className="p-8">
+            <div className="p-8 text-2xl">
               <span>Blogs</span>
               <hr />
             </div>
-            <div className="p-8 flex gap-3 flex-wrap">
+            <div className="p-8 flex gap-3 flex-wrap bg-slate-300 rounded-2xl">
             {blogs?.map((ele)=>(
               <div>
               <Card className="h-[400px] w-[350px] flex flex-col gap-5">
@@ -65,7 +65,7 @@ const UserPage = () => {
                 <span>{ele.likecnt.length}</span>
                 </div>
                 <div className="flex gap-2 hover:cursor-pointer">
-                  <Trash onClick={()=>DeleteBlog(ele._id)}/>
+                  {session?.user.username===params.username && <Trash onClick={()=>DeleteBlog(ele._id)}/>}
                   <ExternalLink/>
                 </div>
                 </div>
@@ -76,7 +76,11 @@ const UserPage = () => {
           </div>
           <div></div>
         </div>
-        <div className="bg-yellow-300 flex-2 text-4xl">right grid</div>
+        <div className="flex-2 text-4xl">
+          <div>
+            <Image src={`https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-854.jpg?t=st=1719863122~exp=1719866722~hmac=6902bffb658a27d8a61252b84ef990418210aafc72c5be8542dd03a74d07a2d4&w=740`} alt="No_user_image" height={200} width={200}/>
+          </div>
+        </div>
       </div>
     </div>
   );
