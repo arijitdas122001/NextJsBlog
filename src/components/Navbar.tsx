@@ -1,37 +1,94 @@
 "use client"
 import React, { useState } from "react";
-import { HoveredLink, Menu, MenuItem} from "./ui/navbar-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@/components/ui/navigation-menu"
 import { cn } from "@/utils/cn";
-import Link from "next/link";
-function Navbar({ className }: { className?: string }) {
-  const [active,setactive]=useState<string | null>(null)
+import Image from "next/image";
+import { Bell, ClipboardPen,   Search } from "lucide-react";
+
+function Navbar() {
   return (
-    <div className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}>
-      <Menu setActive={setactive}>
-        <MenuItem setActive={setactive} active={active} item="Our Courses">
-          <div className="flex flex-col text-sm space-y-4">
-          <HoveredLink href="/courses">Blogs</HoveredLink>
-            <HoveredLink href="/courses">
-              Explore
-            </HoveredLink>
-            <HoveredLink href="/courses">
-              Upload
-            </HoveredLink>
-            </div>
-        </MenuItem>
-        <Link href={"/contact"}>
-            <MenuItem setActive={setactive} active={active} item="Authentication">
-            <div className="flex flex-col text-sm space-y-4">
-          <HoveredLink href="/courses">Sign-Up</HoveredLink>
-            <HoveredLink href="/courses">
-              Sign-In
-            </HoveredLink>
-            </div>
-            </MenuItem>
-        </Link>
-      </Menu>
+    <div className="border border-black bg-black">
+  <div className="p-5 flex justify-between">
+    <div className="flex gap-3 text-white justify-center align-middle">
+      <div className="text-xl font-bold">BlogPedia</div>
+      <div>
+        <Search/>
+      </div>
     </div>
+    <div>
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuContent className="bg-black">
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                <ListItem
+                >
+                  Upload
+                </ListItem>
+                <ListItem
+                >
+                  Write your own
+                </ListItem>
+                <ListItem
+                >
+                  Visit Us
+                </ListItem>
+            </ul>
+          </NavigationMenuContent>
+          </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+    </div>
+    <div className="flex gap-5 text-white justify-center">
+      <div className="flex flex-col gap-1">
+        <ClipboardPen/>
+        write
+      </div>
+      <div>
+        <Bell/>
+      </div>
+      <div>
+      <Image src={`https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-854.jpg?t=st=1719863122~exp=1719866722~hmac=6902bffb658a27d8a61252b84ef990418210aafc72c5be8542dd03a74d07a2d4&w=740`} alt="No_user_image" height={40} width={30} className="rounded-full"/>
+      </div>
+    </div>
+  </div>
+</div>
+
   )
 }
-
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2  text-lg eading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  )
+})
+ListItem.displayName = "ListItem"
 export default Navbar

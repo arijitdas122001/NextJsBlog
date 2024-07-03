@@ -15,7 +15,7 @@ const RTE = ({control,name,value,height}:any) => {
         onInit={(_evt, editor) => editorRef.current = editor}
         initialValue={value}
         init={{
-          height: height?height:500,
+          height: height?height:500,  
           menubar: false,
           plugins: [
             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
