@@ -20,6 +20,7 @@ export async function POST(
         // console.log("img_dat",img_data);
         const slugString=params.slugs;
         const tags=slugString.split('-');   
+        if(tags[tags.length-1]===""){tags.pop()};
         const new_model={
             username:username,
             title:title,
