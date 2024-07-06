@@ -4,10 +4,12 @@ import { BlogInterface } from "@/Model/Blog";
 import axios from "axios";
 import { Heart, MessageCircle } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const DashBoard = () => {
   const [blogs, setBlogs] = useState<[BlogInterface]>();
+  const router=useRouter();
   useEffect(() => {
     const LoadData = async () => {
       const res = await axios.post("http://localhost:3000/api/AllBlog-Get/all");
@@ -15,6 +17,9 @@ const DashBoard = () => {
     };
     LoadData();
   }, []);
+  const handelclick=(ele:string):any=>{
+    router.push(`/blogs/all-blogs/${ele}`)
+  }
   return (
     <div className="flex justify-center min-h-screen">
       <div className="w-full max-w-6xl space-y-8 flex gap-8">
@@ -110,7 +115,7 @@ const DashBoard = () => {
                 </div>
                 <div className="flex gap-5 flex-wrap">
                   {tags.map((ele,i) => (
-                    <div className="rounded-xl bg-blue-100 p-2 hover:cursor-pointer" key={i}>
+                    <div className="rounded-xl bg-blue-100 p-2 hover:cursor-pointer" key={i} onClick={()=>handelclick(ele)}>
                       {ele}
                     </div>
                   ))}

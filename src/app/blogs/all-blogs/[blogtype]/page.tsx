@@ -22,8 +22,8 @@ const AllBlogs = () => {
     const params=useParams();
     useEffect(()=>{ 
         const FetchAllBlogs=async()=>{
-        try {
-            const res=await axios.post('http://localhost:3000/api/AllBlog-Get/all');
+        try{
+            const res=await axios.post(`http://localhost:3000/api/AllBlog-Get/${params.blogtype}`);
             const obj=res.data;
             console.log(obj.All_Blogs);
             setAllBlogs(obj.All_Blogs);
@@ -40,7 +40,7 @@ const AllBlogs = () => {
         FetchAllBlogs();
     },[])
   return (
-    <div className="flex gap-2 justify-center flex-wrap bg-cyan-900">
+    <div className="flex gap-2 justify-center flex-wrap bg-cyan-900 min-h-screen">
       <BackgroundBeams/>
         {allBlogs.map((ele:any,i)=>(
           <div key={i} className="mt-5">
@@ -50,7 +50,7 @@ const AllBlogs = () => {
                   <CardDescription>{ele.sub_title}</CardDescription>
                 </CardHeader>
                 <div className="flex justify-center h-25">
-                  <Image src={ele.img} alt="no-image" height={ele.img?300:200} width={300} className="object-fill"/>
+                  <Image src={ele.img} alt="no-image" height={ele.img?100:200} width={300} className="object-fill"/>
                 </div>
                 <div className="flex justify-evenly align-middle">
                   <div className="flex justify-center align-middle gap-2">

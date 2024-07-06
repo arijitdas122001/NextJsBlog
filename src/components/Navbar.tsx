@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,9 +16,9 @@ import { Bell, ClipboardPen,   Search } from "lucide-react";
 
 function Navbar() {
   return (
-    <div className="border border-black bg-black">
-  <div className="p-2 flex justify-between">
-    <div className="flex gap-3 text-white justify-center align-middle">
+    <div className="border border-black ">
+  <div className="flex justify-between">
+    <div className="flex gap-3 text-black justify-center align-middle">
       <div className="text-xl font-bold">BlogPedia</div>
       <div>
         <Search/>
@@ -28,7 +28,7 @@ function Navbar() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="p-1">Components</NavigationMenuTrigger>
           <NavigationMenuContent className="bg-black">
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                 <ListItem
@@ -49,7 +49,7 @@ function Navbar() {
       </NavigationMenuList>
     </NavigationMenu>
     </div>
-    <div className="flex gap-5 text-white justify-center">
+    <div className="flex gap-5 text-black justify-center">
       <div className="flex flex-col gap-1">
         <ClipboardPen/>
         write
