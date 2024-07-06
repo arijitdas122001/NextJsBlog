@@ -17,7 +17,7 @@ import { Bell, ClipboardPen,   Search } from "lucide-react";
 function Navbar() {
   return (
     <div className="border border-black bg-black">
-  <div className="p-5 flex justify-between">
+  <div className="p-2 flex justify-between">
     <div className="flex gap-3 text-white justify-center align-middle">
       <div className="text-xl font-bold">BlogPedia</div>
       <div>

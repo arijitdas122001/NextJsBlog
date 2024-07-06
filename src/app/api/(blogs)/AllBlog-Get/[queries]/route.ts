@@ -12,7 +12,7 @@ export async function POST(
     try {
         const slugString=params?.queries;
         if(slugString==="all"){
-            const All_Blogs=await BlogModel.find();
+            const All_Blogs=await BlogModel.find().limit(20);
             return Response.json(
              {
                  All_Blogs

@@ -23,9 +23,8 @@ const Blogcard = ({blog}:any) => {
         <CardItem translateZ="100" className="w-full mt-4">
           {img &&<Image
             src={img}
-            height="300"  
+            height="200"  
             width="300"
-            className="w-full object-cover rounded-xl group-hover/card:shadow-xl"
             alt="thumbnail"
           />}
         </CardItem>
