@@ -40,8 +40,12 @@ const AllBlogs = () => {
         FetchAllBlogs();
     },[])
   return (
-    <div className="flex gap-2 justify-center flex-wrap bg-cyan-900 min-h-screen">
+    <div className="flex flex-col gap-2 justify-center flex-wrap bg-cyan-900 min-h-screen">
       <BackgroundBeams/>
+      <div className="flex justify-center">
+        <div className="text-6xl text-white">{params.blogtype==="all"?"All Blogs":`Result for ${params.blogtype}`}</div>
+      </div>
+      <div className="flex gap-3 flex-wrap justify-center">
         {allBlogs.map((ele:any,i)=>(
           <div key={i} className="mt-5">
               <Card className="h-[400px] w-[350px] flex flex-col gap-5">
@@ -64,6 +68,7 @@ const AllBlogs = () => {
               </Card>
           </div>
         ))}
+        </div>
     </div>
   )
 }
