@@ -13,9 +13,6 @@ export async function POST(
         const BlogId=params.blogid;
         const model=await CommentModel.findOne({blog_id:BlogId}).exec();
         // console.log("reached till here 2");
-        if(!model){
-            return ApiResponse(401,"Error while getting comments",false);
-        }
         return Response.json(
             {
                 model
