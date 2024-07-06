@@ -1,2 +1,2 @@
-const tags=['Technology','WebDevolopment','AppDevolopment','Finance','politics','Programming','Trend']
+const tags=['technology','webDevolopment','appDevolopment','finance','politics','programming','trend']
 export default tags

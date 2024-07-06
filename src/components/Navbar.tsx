@@ -16,7 +16,7 @@ import { Bell, ClipboardPen,   Search } from "lucide-react";
 
 function Navbar() {
   return (
-    <div className="border border-black ">
+    <div className="border border-black">
   <div className="flex justify-between">
     <div className="flex gap-3 text-black justify-center align-middle">
       <div className="text-xl font-bold">BlogPedia</div>
@@ -30,7 +30,7 @@ function Navbar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger className="p-1">Components</NavigationMenuTrigger>
           <NavigationMenuContent className="bg-black">
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+            <ul className="grid w-[200px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                 <ListItem
                 >
                   Upload
@@ -50,8 +50,8 @@ function Navbar() {
     </NavigationMenu>
     </div>
     <div className="flex gap-5 text-black justify-center">
-      <div className="flex flex-col gap-1">
-        <ClipboardPen/>
+      <div className="flex">
+        <ClipboardPen height={20}/>
         write
       </div>
       <div>
