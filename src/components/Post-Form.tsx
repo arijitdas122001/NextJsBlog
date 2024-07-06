@@ -17,7 +17,7 @@ import RTE from "./Editor";
 import axios from "axios";
 import tags from "@/data/Tagsarray";
 import { useToast } from "./ui/use-toast";
-import { AwardIcon, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useSession } from "next-auth/react";
 const Post_Form = ({post}:any) => {
   // console.log(post?.title);
@@ -51,15 +51,9 @@ const Post_Form = ({post}:any) => {
   const slugTransfrom=()=>{
     let string="";
     Tags.map((ele)=>(
-      string+=ele
+      string+=ele+'-'
     ));
-    if(string!==""){
-      return string
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-zA-Z\d\s]+/g, "-")
-      .replace(/\s/g, "-");
-    }else return "";
+    return string;
   }
   const onSubmit = async (data: z.infer<typeof BlogSchema>) => {
     // console.log(imgdata);
@@ -71,9 +65,10 @@ const Post_Form = ({post}:any) => {
         from_data.append("sub_title",data.sub_title)
         from_data.append("description",data.description)
         from_data.append("img",image!)
-    // from_data.append("tags",[])
-    console.log(image);
+       // from_data.append("tags",[])
+    // console.log(image);
     const value=slugTransfrom();
+    console.log(value);
     if(post){
       const res=await axios.post(`http://localhost:3000/api/Blog-Edit/${value}/${post?._id}`,from_data);
       toast({
