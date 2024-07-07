@@ -7,6 +7,7 @@ import { RegisterSchema } from '@/schemas/RegisterSchema';
 import ApiResponse from '@/utils/ApiResponse';
 import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod';
@@ -15,6 +16,7 @@ const page = () => {
     const [signingup,setSigningup]=useState(false);
     const [image,setimage]=useState<File>();
     const { toast } = useToast();
+    const router=useRouter();
     const onChangeHandeler = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
         setimage(e.target.files[0]);
@@ -22,7 +24,7 @@ const page = () => {
     };
     const onSubmit=async(data:z.infer<typeof RegisterSchema>)=>{
       setSigningup(true);
-        console.log("till here 1")
+        // console.log("till here 1")
         try {
         const result=RegisterSchema.safeParse(data);
         if(!result.success){
@@ -48,7 +50,7 @@ const page = () => {
           return;
       }
       try{
-        console.log("till here 2");
+        // console.log("till here 2");
         const from_data=new FormData();
         from_data.append("username",data.username)
         from_data.append("email",data.email)
@@ -60,6 +62,7 @@ const page = () => {
           title:"Success",
           variant:'default'
         })
+        router.push('/dashboard');
         }
         catch(error){
           const axiosError = error as AxiosError<ApiResponse>;
@@ -73,7 +76,7 @@ const page = () => {
     }
   return (
     <div className="flex justify-center items-center min-h-screen bg-cyan-900">
-      <div className="w-full max-w-md space-y-8 bg-white shadow-md text-black rounded-3xl">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white shadow-md text-black rounded-3xl">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join with the world

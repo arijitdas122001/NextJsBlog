@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Spotlight } from './ui/Spotlight'
-import { Button } from './ui/button'
+import { Button } from './ui/moving-border'
 const HeroSection = () => {
   return (
     <div
@@ -24,7 +24,7 @@ const HeroSection = () => {
                     <Button
                     className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
                     >
-                    Explore courses
+                    <Link href={'/dashboard'}>Visit DashBoard</Link>
                     </Button>
                 </Link>
             </div>

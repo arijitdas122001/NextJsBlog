@@ -12,7 +12,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { BlogInterface } from "@/Model/Blog";
 import Image from "next/image";
-import {ExternalLink, ThumbsUp, Trash } from "lucide-react";
+import {ExternalLink, Heart,Trash } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
 const UserPage = () => {
@@ -61,7 +61,7 @@ const UserPage = () => {
                 </div>
                 <div className="flex justify-evenly align-middle">
                   <div className="flex justify-center align-middle gap-2">
-                <ThumbsUp color="black"/>
+                <Heart color="black"/>
                 <span>{ele.likecnt.length}</span>
                 </div>
                 <div className="flex gap-2 hover:cursor-pointer">

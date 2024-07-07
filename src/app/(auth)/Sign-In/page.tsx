@@ -9,9 +9,11 @@ import {signIn, useSession} from 'next-auth/react'
 import { SignInSchema } from '@/schemas/SignInSchema';
 import { toast } from '@/components/ui/use-toast';
 import { Loader } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 const page = () => {
     const [signingIn,setSigningIn]=useState(false);
     // const {data:session }=useSession();
+    const router=useRouter();
     const form=useForm<z.infer<typeof SignInSchema>>();
     const onSubmit=async(data:z.infer<typeof SignInSchema>)=>{
         setSigningIn(true)
@@ -58,7 +60,7 @@ const page = () => {
                     description: res.error,
                     variant: 'destructive',
                   });
-            }
+            } 
             setSigningIn(false);
         }
         if(res?.url){
@@ -68,6 +70,7 @@ const page = () => {
             })
             // console.log(session?.user);
             setSigningIn(false);
+            router.push('/dashboard');
         }
     }
   return (
