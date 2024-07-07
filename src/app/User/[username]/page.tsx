@@ -12,18 +12,21 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { BlogInterface } from "@/Model/Blog";
 import Image from "next/image";
-import {ExternalLink, Heart,Trash } from "lucide-react";
+import {ExternalLink, Heart,Loader,Trash } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 const UserPage = () => {
   const [blogs,setblogs]=useState<[BlogInterface]>();
+  const [Loading,SetLoading]=useState(false);
   const params=useParams();
   const {toast}=useToast()
   const {data:session}=useSession();
   const LoadBlogs=async()=>{
+    SetLoading(true);
     const response=await axios.post(`http://localhost:3000/api/Get-userWiseData/${params.username}`);
     setblogs(response.data.res);
+    SetLoading(false);
   }
   useEffect(()=>{
     LoadBlogs();
@@ -49,9 +52,9 @@ const UserPage = () => {
               <span>Blogs</span>
               <hr />
             </div>
-            <div className="p-8 flex gap-3 flex-wrap bg-slate-300 rounded-2xl">
-            {blogs?.map((ele)=>(
-              <div>
+            {Loading?<div className="flex justify-center items-center"><Loader height={200} width={200}/></div>:<div className="p-8 flex gap-3 flex-wrap bg-slate-300 rounded-2xl">
+            {!blogs?.length?<div className="text-xl">You haven't written anything</div>:blogs?.map((ele,i)=>(
+              <div key={i}>
               <Card className="h-[400px] w-[350px] flex flex-col gap-5">
                 <CardHeader>
                   <CardTitle>{ele.title!}</CardTitle>
@@ -74,6 +77,7 @@ const UserPage = () => {
               </div>
             ))}
             </div>
+            }
           </div>
           <div></div>
         </div>
