@@ -15,6 +15,7 @@ import Image from "next/image";
 import {ExternalLink, Heart,Trash } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
 const UserPage = () => {
   const [blogs,setblogs]=useState<[BlogInterface]>();
   const params=useParams();
@@ -66,7 +67,7 @@ const UserPage = () => {
                 </div>
                 <div className="flex gap-2 hover:cursor-pointer">
                   {session?.user.username===params.username && <Trash onClick={()=>DeleteBlog(ele._id)}/>}
-                  <ExternalLink/>
+                  <Link href={`/blog/${ele._id}`}><ExternalLink/></Link>
                 </div>
                 </div>
               </Card>

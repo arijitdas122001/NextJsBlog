@@ -2,18 +2,21 @@
 import tags from "@/data/Tagsarray";
 import { BlogInterface } from "@/Model/Blog";
 import axios from "axios";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, Loader, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const DashBoard = () => {
   const [blogs, setBlogs] = useState<[BlogInterface]>();
+  const [Loading,setLoading]=useState(false);
   const router=useRouter();
   useEffect(() => {
     const LoadData = async () => {
+      setLoading(true);
       const res = await axios.post("http://localhost:3000/api/AllBlog-Get/all");
       setBlogs(res.data.All_Blogs);
+      setLoading(false);
     };
     LoadData();
   }, []);
@@ -24,7 +27,7 @@ const DashBoard = () => {
     <div className="flex justify-center min-h-screen">
       <div className="w-full max-w-6xl space-y-8 flex gap-8">
         <div className="flex-2 p-2">
-          <div className="mt-8">
+         {Loading?<Loader width={200} height={200}/>:<div className="mt-8">
           <div className="text-xl font-bold">For you</div>
           <hr />
           {blogs?.map((ele,i)=>(
@@ -62,6 +65,7 @@ const DashBoard = () => {
             </div>
           ))}
           </div>
+        }
         </div>
         <div className="">
           <div className="">
