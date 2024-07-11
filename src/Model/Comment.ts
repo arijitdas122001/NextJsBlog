@@ -9,12 +9,11 @@ const MessageSchema:Schema<InterMessage>=new Schema({
     give_username:{
         type:String,
         required:[true,"Please provide username"]
- 
     },
     comment:{
         type:String,
         required:true,
-    }
+    },
 },{timestamps:true});
 const MessageModel=mongoose.models.Comments as mongoose.Model<InterMessage> || mongoose.model<InterMessage>('Messages',MessageSchema);  
 // const MessageModel=mongoose.models.Messages as mongoose.Model<> || mongoose.model<Message>('Messages',MessageSchema);  
