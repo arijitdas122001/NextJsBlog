@@ -14,13 +14,16 @@ import {useForm } from "react-hook-form";
 import { z } from "zod";
 import { CommentSchema } from "@/schemas/CommentSchema";
 import { Form } from "@/components/ui/form";
-import { Heart, Loader, MessageCircle } from "lucide-react";
+import { AwardIcon, Heart, Loader, MessageCircle } from "lucide-react";
+import { Replies } from "@/Model/Reply";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
   const { toast } = useToast();
   const [loading, setloading] = useState(false);
   const [commentLoader, setcommentLoader] = useState(false);
+  const [openReplies,setOpenReplies]=useState(false);
+  const [replies,setReplies]=useState<Replies>()
   const [data, setData] = useState<BlogInterface>();
   const [showcomment, setshowcomment] = useState(false);
   const [givenLike,setGivenLike]=useState(false);
@@ -90,6 +93,11 @@ const Blog = () => {
       title:res.data.message
     })
   }
+  const handelOpenReplies=async(parent_cmt_id:any)=>{
+    setOpenReplies(!openReplies);
+    const res=await axios.post(`http://localhost:3000/api/Fetch-reply/${parent_cmt_id}`);
+    setReplies(res.data.model);
+  }
   return (
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
@@ -119,6 +127,15 @@ const Blog = () => {
             <div className="">{ele.createdAt?new Date(ele.createdAt).toLocaleTimeString():"posting date"}</div>  
             </div>
             <div dangerouslySetInnerHTML={{ __html: ele?.comment}}></div>
+            <div className="flex justify-between">
+              <div className="font-semibold hover:cursor-pointer">Reply No</div>
+              <div className="font-semibold hover:cursor-pointer" onClick={()=>handelOpenReplies(ele._id)}>Reply</div>
+            </div>
+            {openReplies && <div className="ml-4 border-l-2 border-black flex flex-col gap-3">
+              {replies?.reply.map((ele,i)=>(
+                <div className="p-3" key={i}>{ele.reply_msg}</div>
+              ))}
+            </div>}
             <hr className="bg-black"/>
           </div>
           ))}

@@ -9,9 +9,9 @@ export async function POST(
     await DbConnect();
     try{
         const parent_cmtid=params.parent_id;
-        console.log(parent_cmtid);
+        // console.log(parent_cmtid);
         const model=await ReplyModel.findOne({parent_cmtid:parent_cmtid}).exec();
-        console.log(model);
+        // console.log(model);
         return Response.json(
         {
             model
