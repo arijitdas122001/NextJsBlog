@@ -1,16 +1,16 @@
-import ReplyModel from "@/Model/Reply";
+import ReplyModel from "@/Model/RevReplies";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 
 export async function POST(
     req:Request,
-    {params}:{params:{parent_id:string}}
+    {params}:{params:{blog_id:string}}
 ) {
     await DbConnect();
     try{
-        const parent_cmtid=params.parent_id;
+        const blog_id=params.blog_id;
         // console.log(parent_cmtid);
-        const model=await ReplyModel.findOne({parent_cmtid:parent_cmtid}).exec();
+        const model=await ReplyModel.findOne({blog_id:blog_id}).exec();
         // console.log(model);
         return Response.json(
         {
