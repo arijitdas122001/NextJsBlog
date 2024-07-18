@@ -1,5 +1,5 @@
 
-import { CommentModel, InterMessage} from "@/Model/Comment";
+import { CommentModel, InterMessageRev} from "@/Model/Comment";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
 
@@ -14,11 +14,11 @@ export async function POST(req:Request) {
         if(!model){
             const newcomment={
                 give_username:username,
-                comment:comment
+                comment:comment,
             }
             const newModel={
                 blog_id:blogid,
-                Comments:[newcomment as InterMessage]
+                Comments:[newcomment as InterMessageRev],
             }
             const newCommentModel=new CommentModel(newModel);
             // console.log(newCommentModel);
@@ -32,7 +32,7 @@ export async function POST(req:Request) {
             }
             await CommentModel.findByIdAndUpdate(
                 model._id,
-                {$push:{Comments:newcomment as InterMessage}}
+                {$push:{Comments:newcomment as InterMessageRev}}
             )
         }
         return ApiResponse(200,"Commented successfully",true);
