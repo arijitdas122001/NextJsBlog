@@ -11,6 +11,7 @@ export async function POST(
     try {
         const {username,replymsg,blog_id}=await req.json();
         const cmt_id=params.parentcmt_id;
+        // console.log(cmt_id);
         // console.log("reaced till here");
         // console.log(blogid,username
         // console.log("reached till here 2");
@@ -20,10 +21,22 @@ export async function POST(
         }
         const NewModelReply=new ReplyModel(newreply);
         console.log("till here");
-        await CommentModel.findByIdAndUpdate(
-            {cmt_id},
-            {$push:{"Comments.Replies":{NewModelReply}}},
-        )
+        const model=await CommentModel.findOne({blog_id:blog_id});
+        model?.Comments.map((ele)=>{
+            // console.log(ele);
+            if(ele.id===cmt_id){
+                // console.log("under if condition");
+                ele.Replies.push(NewModelReply as RevNestedReplies);
+            }
+          });
+          await CommentModel.findByIdAndUpdate({_id:model?._id},
+            {
+                Comments:model?.Comments
+            },
+            {
+                new:true,
+            }
+          )
         // console.log(model);
         return ApiResponse(200,"Replied",true);
     } catch (error) {

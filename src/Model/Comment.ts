@@ -34,7 +34,7 @@ const MessageSchema:Schema<InterMessageRev>=new Schema({
     },
     Replies:[NewNestedRepliesSchema],
 },{timestamps:true});
-const MessageModel=mongoose.models.Comments as mongoose.Model<InterMessageRev> || mongoose.model<InterMessageRev>('Messages',MessageSchema);  
+const MessageModel=mongoose.models.NMessage as mongoose.Model<InterMessageRev> || mongoose.model<InterMessageRev>('NMessage',MessageSchema);  
 // const MessageModel=mongoose.models.Messages as mongoose.Model<> || mongoose.model<Message>('Messages',MessageSchema);  
 export interface RevFeedBack extends Document{
     blog_id:string,
