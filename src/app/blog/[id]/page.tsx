@@ -8,7 +8,7 @@ import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { FeedBack} from "@/Model/Comment";
+import {RevFeedBack} from "@/Model/Comment";
 import RTE from "@/components/Editor";
 import {useForm } from "react-hook-form";
 import { z } from "zod";
@@ -27,7 +27,7 @@ const Blog = () => {
   const [data, setData] = useState<BlogInterface>();
   const [showcomment, setshowcomment] = useState(false);
   const [givenLike,setGivenLike]=useState(false);
-  const [comments, setComments] = useState<FeedBack>();
+  const [comments, setComments] = useState<RevFeedBack>();
   const [description, setdescription] = useState("");
   const [error, seterror] = useState(false);
   const { data: session } = useSession();
@@ -122,26 +122,17 @@ const Blog = () => {
         </div>
       </div>
     </div>
-          {comments?.Comments.map((ele, i) => (
+    {comments?.Comments.map((ele, i) => (
             <div key={i} className="flex-2 flex flex-col gap-2">
             <div>
             <div className="text-lg">{ele.give_username}</div>
             <div className="">{ele.createdAt?new Date(ele.createdAt).toLocaleTimeString():"posting date"}</div>  
             </div>
             <div dangerouslySetInnerHTML={{ __html: ele?.comment}}></div>
-            <div className="flex justify-between">
-              <div className="font-semibold hover:cursor-pointer">Reply No</div>
-              <div className="font-semibold hover:cursor-pointer" onClick={handelOpenReplies}>Reply</div>
-            </div>
-           {openReplies && <div className="ml-4 border-l-2 border-black flex flex-col gap-3">
-              {replies?.map((ele:any,i:any)=>(
-                <div className="p-3" key={i}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat consequatur nam eaque praesentium voluptatum inventore dolores voluptatem, delectus molestiae, totam, quasi tempore quia ad maxime ut perspiciatis soluta natus sint.</div>
-              ))}
-            </div>} 
             <hr className="bg-black"/>
           </div>
           ))}
-          </div>
+        </div>
           </div>
         </div>
         )}
