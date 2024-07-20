@@ -23,14 +23,15 @@ const Blog = () => {
   const [loading, setloading] = useState(false);
   const [commentLoader, setcommentLoader] = useState(false);
   const [openReplies,setOpenReplies]=useState(false);
-  const [replies,setReplies]=useState<any>()
   const [data, setData] = useState<BlogInterface>();
+  const [storeReplyId,setstoreReplyId]=useState("");
   const [showcomment, setshowcomment] = useState(false);
   const [givenLike,setGivenLike]=useState(false);
   const [comments, setComments] = useState<RevFeedBack>();
   const [description, setdescription] = useState("");
   const [error, seterror] = useState(false);
   const { data: session } = useSession();
+  const storeRepliesMap=new Map();
   const form=useForm<z.infer<typeof CommentSchema>>();
   useEffect(() => {
     setloading(true); 
@@ -63,8 +64,6 @@ const Blog = () => {
       `http://localhost:3000/api/Fetch-Comments/${blog_id}`
     );
     setComments(commentsRes.data.model);
-    const res=await axios.post(`http://localhost:3000/api/Fetch-reply/${blog_id}`);
-    setReplies(res.data.model.reply);
   };
   const GiveComment=async(data: z.infer<typeof CommentSchema>)=>{
     // console.log(data);
@@ -94,16 +93,25 @@ const Blog = () => {
       title:res.data.message
     })
   }
-  const handelOpenReplies=async()=>{
-    setOpenReplies(!openReplies)
+  const handelOpenReplies=async(cmt_id:any)=>{
+    // setOpenReplies(cmt_id)
     // console.log(parent_cmt_id);
     // trackReplyMap.get(data.parent_cmtid).map((ele:any)=>console.log(ele));
     // console.log(trackReplyMap.has(parent_cmt_id));
+    // return cmt_id;
+    // if(storeRepliesMap.has(cmt_id)){
+    //   storeRepliesMap.set(cmt_id,"close");
+    // }else{
+    //   storeRepliesMap.set(cmt_id,"open")
+    // }
+    // console.log(storeRepliesMap.has(cmt_id))
+    setOpenReplies(!openReplies)
+    setstoreReplyId(cmt_id)
   }
   return (
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
-        <div className="fixed top-0 left-2/3 h-screen bg-white shadow-2xl overflow-x-scroll transition-transfrom ease-in-out delay-500">
+        <div className="fixed top-0 left-2/3 right-0 h-screen bg-white shadow-2xl overflow-x-scroll transition-transfrom ease-in-out delay-500">
         <div className="p-5">
         <div className="flex flex-col gap-6">
         <div className="flex-1">
@@ -129,13 +137,25 @@ const Blog = () => {
             <div className="">{ele.createdAt?new Date(ele.createdAt).toLocaleTimeString():"posting date"}</div>  
             </div>
             <div dangerouslySetInnerHTML={{ __html: ele?.comment}}></div>
+            <div className="flex justify-between">
+              <div className="font-semibold hover:cursor-pointer">Reply No</div>
+              <div className="font-semibold hover:cursor-pointer" onClick={()=>handelOpenReplies(ele._id)}>Reply</div>
+            </div>
+             <div>
+            {openReplies && storeReplyId===ele._id && ele.Replies.map((ele,i)=>(
+              <div className="ml-4 border-l-2 border-black flex flex-col gap-3" key={i}>
+                <div className="p-3" key={i}>{ele.reply_msg}</div>
+            </div>
+            ))
+            }
+            </div>
             <hr className="bg-black"/>
           </div>
-          ))}
+        ))}
         </div>
-          </div>
         </div>
-        )}
+        </div>
+    )}
       <div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flex-2">
         <div className="text-4xl font-bold">{data?.title}</div>
         <div>
