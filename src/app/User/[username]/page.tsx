@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   Card,
@@ -12,36 +12,41 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { BlogInterface } from "@/Model/Blog";
 import Image from "next/image";
-import {ExternalLink, Heart,Loader,Trash } from "lucide-react";
+import { ExternalLink, Heart, Loader, Trash } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 const UserPage = () => {
-  const [blogs,setblogs]=useState<[BlogInterface]>();
-  const [Loading,SetLoading]=useState(false);
-  const params=useParams();
-  const {toast}=useToast()
-  const {data:session}=useSession();
-  const LoadBlogs=async()=>{
+  const [blogs, setblogs] = useState<[BlogInterface]>();
+  const [Loading, SetLoading] = useState(false);
+  const params = useParams();
+  const { toast } = useToast();
+  const { data: session } = useSession();
+  const LoadBlogs = async () => {
     SetLoading(true);
-    const response=await axios.post(`http://localhost:3000/api/Get-userWiseData/${params.username}`);
+    const response = await axios.post(
+      `http://localhost:3000/api/Get-userWiseData/${params.username}`
+    );
     setblogs(response.data.res);
     SetLoading(false);
-  }
-  useEffect(()=>{
+  };
+  useEffect(() => {
     LoadBlogs();
-  },[])
-  const DeleteBlog=async(id:string)=>{
-    const newobj={
-      "user_id":session?.user._id!,
-      "blog_id":id
-    }
-    const res=await axios.post('http://localhost:3000/api/Blog-Delete',newobj);
+  }, []);
+  const DeleteBlog = async (id: string) => {
+    const newobj = {
+      user_id: session?.user._id!,
+      blog_id: id,
+    };
+    const res = await axios.post(
+      "http://localhost:3000/api/Blog-Delete",
+      newobj
+    );
     LoadBlogs();
     toast({
-      title:res.data.message
-    })
-  } ;
+      title: res.data.message,
+    });
+  };
   return (
     <div>
       <div className="flex justify-evenly ">
@@ -52,38 +57,62 @@ const UserPage = () => {
               <span>Blogs</span>
               <hr />
             </div>
-            {Loading?<div className="flex justify-center items-center"><Loader height={200} width={200}/></div>:<div className="p-8 flex gap-3 flex-wrap bg-slate-300 rounded-2xl">
-            {!blogs?.length?<div className="text-xl">You haven't written anything</div>:blogs?.map((ele,i)=>(
-              <div key={i}>
-              <Card className="h-[400px] w-[350px] flex flex-col gap-5">
-                <CardHeader>
-                  <CardTitle>{ele.title!}</CardTitle>
-                  <CardDescription>{ele.sub_title}</CardDescription>
-                </CardHeader>
-                <div className="flex justify-center h-25">
-                  <Image src={ele.img} alt="no-image" height={ele.img?300:200} width={300} className="object-fill"/>
-                </div>
-                <div className="flex justify-evenly align-middle">
-                  <div className="flex justify-center align-middle gap-2">
-                <Heart color="black"/>
-                <span>{ele.likecnt.length}</span>
-                </div>
-                <div className="flex gap-2 hover:cursor-pointer">
-                  {session?.user.username===params.username && <Trash onClick={()=>DeleteBlog(ele._id)}/>}
-                  <Link href={`/blog/${ele._id}`}><ExternalLink/></Link>
-                </div>
-                </div>
-              </Card>
+            {Loading ? (
+              <div className="flex justify-center items-center">
+                <Loader height={200} width={200} />
               </div>
-            ))}
-            </div>
-            }
+            ) : (
+              <div className="p-8 flex gap-3 flex-wrap bg-slate-300 rounded-2xl">
+                {!blogs?.length ? (
+                  <div className="text-xl">You haven't written anything</div>
+                ) : (
+                  blogs?.map((ele, i) => (
+                    <div key={i}>
+                      <Card className="h-[400px] w-[350px] flex flex-col gap-5">
+                        <CardHeader>
+                          <CardTitle>{ele.title!}</CardTitle>
+                          <CardDescription>{ele.sub_title}</CardDescription>
+                        </CardHeader>
+                        <div className="flex justify-center h-[100px] w-full">
+                          <Image
+                            src={ele.img}
+                            alt="no-image"
+                            height={100}
+                            width={200}
+                            className="flex justify-center align-middle"
+                          />
+                        </div>
+                        <div className="flex justify-evenly align-middle">
+                          <div className="flex justify-center align-middle gap-2">
+                            <Heart color="black" />
+                            <span>{ele.likecnt.length}</span>
+                          </div>
+                          <div className="flex gap-2 hover:cursor-pointer">
+                            {session?.user.username === params.username && (
+                              <Trash onClick={() => DeleteBlog(ele._id)} />
+                            )}
+                            <Link href={`/blog/${ele._id}`}>
+                              <ExternalLink />
+                            </Link>
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
           </div>
           <div></div>
         </div>
         <div className="flex-2 text-4xl">
           <div>
-            <Image src={`https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-854.jpg?t=st=1719863122~exp=1719866722~hmac=6902bffb658a27d8a61252b84ef990418210aafc72c5be8542dd03a74d07a2d4&w=740`} alt="No_user_image" height={200} width={200}/>
+            <Image
+              src={`https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-854.jpg?t=st=1719863122~exp=1719866722~hmac=6902bffb658a27d8a61252b84ef990418210aafc72c5be8542dd03a74d07a2d4&w=740`}
+              alt="No_user_image"
+              height={200}
+              width={200}
+            />
           </div>
         </div>
       </div>
