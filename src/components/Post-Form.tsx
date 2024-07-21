@@ -19,6 +19,7 @@ import tags from "@/data/Tagsarray";
 import { useToast } from "./ui/use-toast";
 import { Loader } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const Post_Form = ({post}:any) => {
   // console.log(post?.title);
   const [image, setimage] = useState<File>();
@@ -27,6 +28,7 @@ const Post_Form = ({post}:any) => {
   const [submitting,setSubmitting]=useState(false);
   const {toast}=useToast();
   const {data:session}=useSession();
+  const router=useRouter();
   // console.log(session?.user);
   const userobj=session?.user;
   const name:string=userobj?.username!;
@@ -76,6 +78,7 @@ const Post_Form = ({post}:any) => {
         description:res.data.message,
         variant:"default"
       })
+      router.push(`/user/${data.username}`)
     }else{
     const res = await axios.post(
       `http://localhost:3000/api/Blog-Upload/${value}`,
@@ -86,6 +89,7 @@ const Post_Form = ({post}:any) => {
       description:res.data.message,
       variant:"default"
     })
+    router.push(`/user/${data.username}`)
   }
   setSubmitting(false);
  }
