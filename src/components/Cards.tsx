@@ -18,13 +18,13 @@ const Cards = ({ ele }: any) => {
           <CardTitle>{ele.title!}</CardTitle>
           <CardDescription>{ele.sub_title}</CardDescription>
         </CardHeader>
-        <div className="flex justify-center h-25">
+        <div className="flex justify-center h-[100px] w-full">
           <Image
-            src={ele.img}
+            src={ele.img!}
             alt="no-image"
-            height={ele.img ? 100 : 200}
-            width={300}
-            className="object-fill"
+            height={100}
+            width={200}
+            className="flex justify-center align-middle"
           />
         </div>
         <div className="flex justify-evenly align-middle cursor-pointer">

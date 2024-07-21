@@ -16,6 +16,7 @@ import { CommentSchema } from "@/schemas/CommentSchema";
 import { Form } from "@/components/ui/form";
 import {Heart, Loader, MessageCircle } from "lucide-react";
 import { RevNestedReplies } from "@/Model/RevReplies";
+import { ReplySchema } from "@/schemas/ReplySchema";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
@@ -30,8 +31,8 @@ const Blog = () => {
   const [comments, setComments] = useState<RevFeedBack>();
   const [description, setdescription] = useState("");
   const [error, seterror] = useState(false);
+  const [openPostReply,setOpenPostReply]=useState(false);
   const { data: session } = useSession();
-  const storeRepliesMap=new Map();
   const form=useForm<z.infer<typeof CommentSchema>>();
   useEffect(() => {
     setloading(true); 
@@ -108,6 +109,11 @@ const Blog = () => {
     setOpenReplies(!openReplies)
     setstoreReplyId(cmt_id)
   }
+  const openEditor=async(cmt_id:any)=>{
+    setOpenPostReply(!openPostReply);
+    setstoreReplyId(cmt_id);
+  }
+  const GiveReply=()=>{}
   return (
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
@@ -138,9 +144,13 @@ const Blog = () => {
             </div>
             <div dangerouslySetInnerHTML={{ __html: ele?.comment}}></div>
             <div className="flex justify-between">
-              <div className="font-semibold hover:cursor-pointer">Reply No</div>
-              <div className="font-semibold hover:cursor-pointer" onClick={()=>handelOpenReplies(ele._id)}>Reply</div>
+              <div className="font-semibold hover:cursor-pointer" onClick={()=>handelOpenReplies(ele._id)}>View replies</div>
+              <div className="font-semibold hover:cursor-pointer" onClick={()=>openEditor(ele._id)}>Post a Reply</div>
             </div>
+            {openPostReply && storeReplyId===ele._id && <div className="flex gap-4">
+             <textarea className="border-2 border-black rounded-lg pl-2"/>
+              <button className="bg-green-400 rounded-lg pt-2 pb-2 pl-4 pr-4">Post</button>
+            </div>}
              <div>
             {openReplies && storeReplyId===ele._id && ele.Replies.map((ele,i)=>(
               <div className="ml-4 border-l-2 border-black flex flex-col gap-3" key={i}>
@@ -180,7 +190,7 @@ const Blog = () => {
           <hr />
         </div>
         <div className="flex justify-center">
-          <Image src={data?.img!} height={300} width={500} alt="No image" />
+          <Image src={data?.img?data?.img:""} height={300} width={500} alt="No image" />
         </div>  
         {/* <div dangerouslySetInnerHTML={{ __html: data?.description!}}></div> */}
         <div>{parse(description)}</div>

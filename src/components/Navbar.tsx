@@ -68,14 +68,16 @@ function Navbar() {
     </div>
     <div className="flex gap-8 text-black hover:cursor-pointer p-2 justify-center items-center">
       <div className="flex gap-2 witems-center">
+        <Link href={'/blogs/upload'}>
         <ClipboardPen/>
         <div>Write</div>
+        </Link>
       </div>
       <div className="flex justify-center items-center">
         <div><Bell/></div>
       </div>
       <div>
-      <Link href={`/User/${session?.user.username}`}><Image src={`https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-854.jpg?t=st=1719863122~exp=1719866722~hmac=6902bffb658a27d8a61252b84ef990418210aafc72c5be8542dd03a74d07a2d4&w=740`} alt="No_user_image" height={50} width={50} className="rounded-full"/></Link>
+      <Link href={`/User/${session?.user.username}`}><Image src={`https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-854.jpg?t=st=1719863122~exp=1719866722~hmac=6902bffb658a27d8a61252b84ef990418210aafc72c5be8542dd03a74d07a2d4&w=740`} alt="No_user_image" height={50} width={50} priority={true} className="rounded-full"/></Link>
       </div>
     </div>
   </div>
@@ -108,4 +110,4 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
-export default Navbar
+export default Navbar 
