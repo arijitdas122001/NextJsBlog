@@ -36,30 +36,14 @@ function Navbar() {
           <NavigationMenuTrigger className="p-1 text-lg">Components</NavigationMenuTrigger>
           <NavigationMenuContent className="bg-black rounded-xl">
             <ul className="grid w-[200px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                <ListItem
-                >
-                  <Link href={'/'}>Home</Link>
-                </ListItem>
-                <ListItem
-                >
-                  <Link href={'/blogs/upload'}>Write your own</Link>
-                </ListItem>
-                <ListItem
-                >
-                  <Link href={'/blogs/all-blogs/all'}>Visit All Blogs</Link>
-                </ListItem>
-                <ListItem
-                >
-                  <Link href={'/dashboard'}>Dashboard</Link>
-                </ListItem>
-                <ListItem
-                >
-                  <Link href={'/Sign-In'}>Log In</Link>
-                </ListItem>
-                <ListItem
-                >
-                  <Link href={'/Sign-up'}>Sing-up</Link>
-                </ListItem>
+               <Link href={'/'}>
+               <ListItem>Home</ListItem>
+               </Link>
+                  <Link href={'/blogs/upload'}><ListItem>Write your own</ListItem></Link>
+                  <Link href={'/blogs/all-blogs/all'}><ListItem>Visit All Blogs</ListItem></Link>
+                  <Link href={'/dashboard'}><ListItem>Dashboard</ListItem></Link>
+                  <Link href={'/Sign-In'}><ListItem>Log In</ListItem></Link>
+                  <Link href={'/Sign-up'}><ListItem>Sing-up</ListItem></Link>
             </ul>
           </NavigationMenuContent>
           </NavigationMenuItem>
