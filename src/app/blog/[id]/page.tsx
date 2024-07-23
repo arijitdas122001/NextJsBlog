@@ -26,6 +26,7 @@ const Blog = () => {
   const [openReplies,setOpenReplies]=useState(false);
   const [data, setData] = useState<BlogInterface>();
   const [storeReplyId,setstoreReplyId]=useState("");
+  const [reply,setreply]=useState("");
   const [showcomment, setshowcomment] = useState(false);
   const [givenLike,setGivenLike]=useState(false);
   const [comments, setComments] = useState<RevFeedBack>();
@@ -113,7 +114,19 @@ const Blog = () => {
     setOpenPostReply(!openPostReply);
     setstoreReplyId(cmt_id);
   }
-  const GiveReply=()=>{}
+  const handelReply=async(username:string,cmt_id:any)=>{
+    const body={
+    "blog_id":blog_id,
+    "username":data?.username,
+    "replymsg":reply
+    }
+    console.log(data?.username);
+    const res=await axios.post(`http://localhost:3000/api/Reply-sent/${cmt_id}`,body);
+    LoadComment();
+    toast({
+      title:res.data.message
+    });
+  }
   return (
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
@@ -148,8 +161,8 @@ const Blog = () => {
               <div className="font-semibold hover:cursor-pointer" onClick={()=>openEditor(ele._id)}>Post a Reply</div>
             </div>
             {openPostReply && storeReplyId===ele._id && <div className="flex gap-4">
-             <textarea className="border-2 border-black rounded-lg pl-2"/>
-              <button className="bg-green-400 rounded-lg pt-2 pb-2 pl-4 pr-4">Post</button>
+             <textarea className="border-2 border-black rounded-lg pl-2" onChange={(e)=>setreply(e.target.value)}/>
+              <button className="bg-green-400 rounded-lg pt-2 pb-2 pl-4 pr-4" onClick={()=>handelReply(ele.give_username,ele._id)}>Post</button>
             </div>}
              <div>
             {openReplies && storeReplyId===ele._id && ele.Replies.map((ele,i)=>(

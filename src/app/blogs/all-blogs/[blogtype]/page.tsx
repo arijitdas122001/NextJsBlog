@@ -5,7 +5,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation';
 import Cards from '@/components/Cards';
-import { Loader } from 'lucide-react';
+import {LoaderCircle } from 'lucide-react';
 const AllBlogs = () => {
     const [allBlogs,setAllBlogs]=useState<[]>([]);
     const [fetching,setFetching]=useState(false);
@@ -40,7 +40,7 @@ const AllBlogs = () => {
         <div className="text-6xl text-white">{params.blogtype==="all"?"All Blogs":`Result for ${params.blogtype}`}</div>
       </div>
       <div className="flex gap-3 flex-wrap justify-center">
-        {fetching?<Loader className="flex justify-center items-center" height={300} width={300} color='white'/>: <div className="flex gap-3 flex-wrap justify-center">
+        {fetching?<LoaderCircle className="flex justify-center items-center animate-spin" height={200} width={200} color='white'/>: <div className="flex gap-3 flex-wrap justify-center">
         {allBlogs.map((ele:any,i)=>(
             <div className="mt-6  " key={i}>
               <Cards ele={ele}/> 
