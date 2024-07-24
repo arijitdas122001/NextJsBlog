@@ -36,7 +36,6 @@ const Blog = () => {
   const { data: session } = useSession();
   const form=useForm<z.infer<typeof CommentSchema>>();
   useEffect(() => {
-    setloading(true); 
     const fetchData = async () => {
       try {
         const res = await axios.post(
@@ -47,7 +46,6 @@ const Blog = () => {
         // console.log(data);
       } catch (error) {
         seterror(true);
-        setloading(false);
         toast({
           title: "Failure",
           description: "Failed to Fetch the blog",
@@ -56,16 +54,17 @@ const Blog = () => {
       }
     };
     fetchData();
-    setloading(false);
   }, []);
   const date = new Date(data?.createdAt!).toLocaleDateString();
   const LoadComment = async () => {
     setshowcomment(!showcomment);
     // console.log(showcomment);
+    setloading(true);
     const commentsRes = await axios.post(
       `http://localhost:3000/api/Fetch-Comments/${blog_id}`
     );
     setComments(commentsRes.data.model);
+    setloading(false);
   };
   const GiveComment=async(data: z.infer<typeof CommentSchema>)=>{
     // console.log(data);
@@ -149,7 +148,7 @@ const Blog = () => {
         </div>
       </div>
     </div>
-    {comments?.Comments.map((ele, i) => (
+    {loading?<Loader className=" flexl justify-center items-center animate-spin"/>:comments?.Comments.map((ele, i) => (
             <div key={i} className="flex-2 flex flex-col gap-2">
             <div>
             <div className="text-lg">{ele.give_username}</div>
@@ -166,8 +165,12 @@ const Blog = () => {
             </div>}
              <div>
             {openReplies && storeReplyId===ele._id && ele.Replies.map((ele,i)=>(
-              <div className="ml-4 border-l-2 border-black flex flex-col gap-3" key={i}>
-                <div className="p-3" key={i}>{ele.reply_msg}</div>
+              <div className="ml-4 border-l-2 border-black flex flex-col" key={i}>
+                <div className="p-3">
+                <div className="">{ele.give_username}</div>
+                <div className="" key={i}>{ele.reply_msg}</div>
+                </div>
+                <hr />
             </div>
             ))
             }

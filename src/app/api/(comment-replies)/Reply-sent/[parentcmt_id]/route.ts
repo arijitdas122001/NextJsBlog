@@ -1,4 +1,4 @@
-import { CommentModel, MessageModel, ReplyModel, RevNestedReplies } from "@/Model/Comment";
+import { CommentModel, MessageModel, ReplyModel, RevNestedReplies1 } from "@/Model/Comment";
 import RevRepliesModel from "@/Model/RevReplies";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
@@ -26,7 +26,7 @@ export async function POST(
             // console.log(ele);
             if(ele.id===cmt_id){
                 // console.log("under if condition");
-                ele.Replies.push(NewModelReply as RevNestedReplies);
+                ele.Replies.push(NewModelReply as RevNestedReplies1);
             }
           });
           await CommentModel.findByIdAndUpdate({_id:model?._id},
