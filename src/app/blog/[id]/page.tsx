@@ -8,15 +8,13 @@ import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import {RevFeedBack} from "@/Model/Comment";
+import {RevFeedBack1} from "@/Model/Comment";
 import RTE from "@/components/Editor";
 import {useForm } from "react-hook-form";
 import { z } from "zod";
 import { CommentSchema } from "@/schemas/CommentSchema";
 import { Form } from "@/components/ui/form";
 import {Heart, Loader, MessageCircle } from "lucide-react";
-import { RevNestedReplies } from "@/Model/RevReplies";
-import { ReplySchema } from "@/schemas/ReplySchema";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
@@ -24,15 +22,17 @@ const Blog = () => {
   const [loading, setloading] = useState(false);
   const [commentLoader, setcommentLoader] = useState(false);
   const [openReplies,setOpenReplies]=useState(false);
-  const [data, setData] = useState<BlogInterface>();
+  const [Data, setData] = useState<BlogInterface>();
   const [storeReplyId,setstoreReplyId]=useState("");
   const [reply,setreply]=useState("");
   const [showcomment, setshowcomment] = useState(false);
   const [givenLike,setGivenLike]=useState(false);
-  const [comments, setComments] = useState<RevFeedBack>();
+  const [comments, setComments] = useState<RevFeedBack1>();
   const [description, setdescription] = useState("");
   const [error, seterror] = useState(false);
   const [openPostReply,setOpenPostReply]=useState(false);
+  const [CmtGivenLike,SetCmtGivenLike]=useState(false);
+  const [BlogGivenLike,setBlogGivenLike]=useState(false);
   const { data: session } = useSession();
   const form=useForm<z.infer<typeof CommentSchema>>();
   useEffect(() => {
@@ -43,6 +43,11 @@ const Blog = () => {
         );
         setData(res.data.blog);
         setdescription(res.data.blog.description);
+      Data?.likecnt.map((ele)=>{
+        if(ele===session?.user.username){
+          setBlogGivenLike(true);
+        }
+      })
         // console.log(data);
       } catch (error) {
         seterror(true);
@@ -55,7 +60,7 @@ const Blog = () => {
     };
     fetchData();
   }, []);
-  const date = new Date(data?.createdAt!).toLocaleDateString();
+  const date = new Date(Data?.createdAt!).toLocaleDateString();
   const LoadComment = async () => {
     setshowcomment(!showcomment);
     // console.log(showcomment);
@@ -64,6 +69,14 @@ const Blog = () => {
       `http://localhost:3000/api/Fetch-Comments/${blog_id}`
     );
     setComments(commentsRes.data.model);
+    comments?.Comments.map((ele)=>{
+      ele.Likes.map((ele1)=>{
+        if(ele1===Data?.username){
+          console.log("found");
+          SetCmtGivenLike(true)
+        }
+      })
+    })
     setloading(false);
   };
   const GiveComment=async(data: z.infer<typeof CommentSchema>)=>{
@@ -86,7 +99,7 @@ const Blog = () => {
   const GiveLike=async()=>{
     setGivenLike(true);
     const res=await axios.post('http://localhost:3000/api/Give-Like',{
-      "recv_like_username":data?.username,
+      "recv_like_username":session?.user.username,
     "from_username":session?.user.username,
     "blog_id":blog_id
     });
@@ -116,15 +129,23 @@ const Blog = () => {
   const handelReply=async(username:string,cmt_id:any)=>{
     const body={
     "blog_id":blog_id,
-    "username":data?.username,
+    "username":session?.user.username,
     "replymsg":reply
     }
-    console.log(data?.username);
+    // console.log(data?.username);
     const res=await axios.post(`http://localhost:3000/api/Reply-sent/${cmt_id}`,body);
     LoadComment();
     toast({
       title:res.data.message
     });
+  }
+  const handelLike=async(cmt_id:any)=>{
+      const body={
+        "cmt_id":cmt_id,
+        "from_username":session?.user.username
+      }
+      const res=await axios.post(`http://localhost:3000/api/Give-cmt-like/${blog_id}`,body);
+      SetCmtGivenLike(true);
   }
   return (
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
@@ -156,7 +177,13 @@ const Blog = () => {
             </div>
             <div dangerouslySetInnerHTML={{ __html: ele?.comment}}></div>
             <div className="flex justify-between">
-              <div className="font-semibold hover:cursor-pointer" onClick={()=>handelOpenReplies(ele._id)}>View replies</div>
+            <div className="flex gap-2">
+            <div className="flex gap-1 justify-center items-center hover:cursor-pointer">
+              <Heart size={20} fill={CmtGivenLike?"Green":"white"} color="green" onClick={()=>handelLike(ele._id)}/>
+              {ele.Likes.length}
+              </div>  
+            {ele.Replies.length>0 && <div className="font-semibold hover:cursor-pointer" onClick={()=>handelOpenReplies(ele._id)}>View replies</div>}
+            </div>
               <div className="font-semibold hover:cursor-pointer" onClick={()=>openEditor(ele._id)}>Post a Reply</div>
             </div>
             {openPostReply && storeReplyId===ele._id && <div className="flex gap-4">
@@ -183,9 +210,9 @@ const Blog = () => {
         </div>
     )}
       <div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flex-2">
-        <div className="text-4xl font-bold">{data?.title}</div>
+        <div className="text-4xl font-bold">{Data?.title}</div>
         <div>
-          <div className="text-xl">{data?.username}</div>
+          <div className="text-xl">{Data?.username}</div>
           <div className="flex gap-3">
             <span>2 min read</span>
             <span>.</span>
@@ -197,7 +224,7 @@ const Blog = () => {
           <div className="flex gap-7 font-bold">
             <div className="hover:cursor-pointer flex gap-2">
             <Heart color="red" fill={givenLike?"red":"white"} onClick={GiveLike}/>
-            <span>{givenLike?data?.likecnt.length!+1:data?.likecnt.length}</span>
+            <span>{givenLike?Data?.likecnt.length!+1:Data?.likecnt.length}</span>
             </div>
             <div className="hover:cursor-pointer" onClick={LoadComment}>
               <MessageCircle/>
@@ -206,7 +233,7 @@ const Blog = () => {
           <hr />
         </div>
         <div className="flex justify-center">
-          <Image src={data?.img?data?.img:""} height={300} width={500} alt="No image" />
+          <Image src={Data?.img?Data?.img:""} height={300} width={500} alt="No image" />
         </div>  
         {/* <div dangerouslySetInnerHTML={{ __html: data?.description!}}></div> */}
         <div>{parse(description)}</div>
@@ -216,7 +243,7 @@ const Blog = () => {
             <div className="flex gap-3 font-bold">
             <div className="hover:cursor-pointer flex gap-2">
             <Heart color="red" fill={givenLike?"red":"white"} onClick={GiveLike}/>
-            <span>{givenLike?data?.likecnt.length!+1:data?.likecnt.length}</span>
+            <span>{givenLike?Data?.likecnt.length!+1:Data?.likecnt.length}</span>
             </div>
             <div className="hover:cursor-pointer" onClick={LoadComment}>
               <MessageCircle/>

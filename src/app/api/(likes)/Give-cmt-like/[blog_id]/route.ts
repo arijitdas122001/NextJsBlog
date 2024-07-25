@@ -1,7 +1,6 @@
 import { CommentModel } from "@/Model/Comment";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection";
-import { boolean } from "zod";
 
 export async function POST(
     req:Request,
