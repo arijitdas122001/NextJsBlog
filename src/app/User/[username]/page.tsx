@@ -2,9 +2,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -59,7 +57,7 @@ const UserPage = () => {
             </div>
             {Loading ? (
               <div className="flex justify-center items-center ">
-                <Loader className="animate-spin" height={200} width={200} />
+                <Loader className="animate-spin h-[200px] w-[200px]"/>
               </div>
             ) : (
               <div className="p-8 flex gap-3 flex-wrap bg-slate-300 rounded-2xl">
