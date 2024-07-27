@@ -15,10 +15,12 @@ import { z } from "zod";
 import { CommentSchema } from "@/schemas/CommentSchema";
 import { Form } from "@/components/ui/form";
 import {Heart, Loader, MessageCircle } from "lucide-react";
+import Loadingblog from "@/components/skelitons/Loadingblog";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
   const { toast } = useToast();
+  const [loadpage,setloadingpage]=useState(false);
   const [loading, setloading] = useState(false);
   const [commentLoader, setcommentLoader] = useState(false);
   const [openReplies,setOpenReplies]=useState(false);
@@ -38,11 +40,13 @@ const Blog = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setloadingpage(true);
         const res = await axios.post(
           `http://localhost:3000/api/Get-Blog/${blog_id}`
         );
         setData(res.data.blog);
         setdescription(res.data.blog.description);
+        setloadingpage(false);
         // console.log(data);
       } catch (error) {
         seterror(true);
@@ -51,6 +55,7 @@ const Blog = () => {
           description: "Failed to Fetch the blog",
           variant: "destructive",
         });
+        setloadingpage(false);
       }
     };
     fetchData();
@@ -151,6 +156,8 @@ const Blog = () => {
       SetCmtGivenLike(true);
   }
   return (
+    <>
+    {loadpage?<>{Array.from(Array(3),(i)=><Loadingblog key={i}/>)}</>:
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
         <div className="fixed top-0 left-2/3 right-0 h-screen bg-white shadow-2xl overflow-x-scroll transition-transfrom ease-in-out delay-500">
@@ -257,6 +264,8 @@ const Blog = () => {
         </div>
       </div>
     </div>
+   }
+   </>
   );
 };
 
