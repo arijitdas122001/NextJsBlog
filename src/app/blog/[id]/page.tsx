@@ -185,7 +185,7 @@ const Blog = () => {
               <Heart size={20} fill={CmtGivenLike?"Green":"white"} color="green" onClick={()=>handelLike(ele._id)}/>
               {ele.Likes.length}
               </div>  
-            {ele.Replies.length>0 && <div className="font-semibold hover:cursor-pointer" onClick={()=>handelOpenReplies(ele._id)}>View replies</div>}
+            {ele.Replies.length>0 && <div className="font-semibold hover:cursor-pointer" onClick={()=>handelOpenReplies(ele._id)}>{openReplies?"Hide ":"View "}replies</div>}
             </div>
               <div className="font-semibold hover:cursor-pointer" onClick={()=>openEditor(ele._id)}>Post a Reply</div>
             </div>
@@ -236,7 +236,7 @@ const Blog = () => {
           <hr />
         </div>
         <div className="flex justify-center">
-          <Image src={Data?.img?Data?.img:""} height={300} width={500} alt="No image" />
+          <Image src={Data?.img?Data?.img:"/"} height={300} width={500} style={{ width: 'auto'}} alt="No image"  priority={true} />
         </div>  
         {/* <div dangerouslySetInnerHTML={{ __html: data?.description!}}></div> */}
         <div>{parse(description)}</div>
@@ -245,7 +245,7 @@ const Blog = () => {
           <div>
             <div className="flex gap-3 font-bold">
             <div className="hover:cursor-pointer flex gap-2">
-            <Heart color="red" fill={givenLike?"red":"white"} onClick={GiveLike}/>
+            <Heart color="red" fill={givenLike || BlogGivenLike?"red":"white"} onClick={GiveLike}/>
             <span>{givenLike?Data?.likecnt.length!+1:Data?.likecnt.length}</span>
             </div>
             <div className="hover:cursor-pointer" onClick={LoadComment}>
