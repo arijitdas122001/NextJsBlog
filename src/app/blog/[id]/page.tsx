@@ -43,11 +43,6 @@ const Blog = () => {
         );
         setData(res.data.blog);
         setdescription(res.data.blog.description);
-      Data?.likecnt.map((ele)=>{
-        if(ele===session?.user.username){
-          setBlogGivenLike(true);
-        }
-      })
         // console.log(data);
       } catch (error) {
         seterror(true);
@@ -60,6 +55,22 @@ const Blog = () => {
     };
     fetchData();
   }, []);
+  useEffect(()=>{
+    Data?.likecnt.map((ele)=>{
+      if(ele===session?.user.username){
+        // console.log("found");
+        setBlogGivenLike(true);
+      }
+    })
+    comments?.Comments.map((ele)=>{
+      ele.Likes.map((ele1)=>{
+        if(ele1===session?.user.username){
+          // console.log("found");
+          SetCmtGivenLike(true)
+        }
+      })
+    })
+  },[Data,comments])
   const date = new Date(Data?.createdAt!).toLocaleDateString();
   const LoadComment = async () => {
     setshowcomment(!showcomment);
@@ -69,14 +80,6 @@ const Blog = () => {
       `http://localhost:3000/api/Fetch-Comments/${blog_id}`
     );
     setComments(commentsRes.data.model);
-    comments?.Comments.map((ele)=>{
-      ele.Likes.map((ele1)=>{
-        if(ele1===Data?.username){
-          console.log("found");
-          SetCmtGivenLike(true)
-        }
-      })
-    })
     setloading(false);
   };
   const GiveComment=async(data: z.infer<typeof CommentSchema>)=>{
@@ -87,7 +90,7 @@ const Blog = () => {
     "username":session?.user.username,
     "comment":data.comment
     }
-    console.log("till here");
+    // console.log("till here");
     const res=await axios.post('http://localhost:3000/api/Give-Comment',commentBody);
     LoadComment();
     setshowcomment(true);
@@ -219,11 +222,11 @@ const Blog = () => {
             <span>{date}</span>
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2"> 
           <hr className="bg-black" />
           <div className="flex gap-7 font-bold">
             <div className="hover:cursor-pointer flex gap-2">
-            <Heart color="red" fill={givenLike?"red":"white"} onClick={GiveLike}/>
+            <Heart color="red" fill={givenLike ||  BlogGivenLike?"red":"white"} onClick={GiveLike}/>
             <span>{givenLike?Data?.likecnt.length!+1:Data?.likecnt.length}</span>
             </div>
             <div className="hover:cursor-pointer" onClick={LoadComment}>
