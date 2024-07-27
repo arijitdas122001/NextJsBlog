@@ -3,6 +3,7 @@ import tags from "@/data/Tagsarray";
 import { BlogInterface } from "@/Model/Blog";
 import axios from "axios";
 import { Heart, Loader, MessageCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import React, { useEffect, useState } from "react";
 const DashBoard = () => {
   const [blogs, setBlogs] = useState<[BlogInterface]>();
   const [Loading,setLoading]=useState(false);
+  const {data:session}=useSession();
   const router=useRouter();
   useEffect(() => {
     const LoadData = async () => {
@@ -20,6 +22,17 @@ const DashBoard = () => {
     };
     LoadData();
   }, []);
+  const isFill=(ele:any)=>{
+    let flag=false;
+    ele.likecnt.map((e:any)=>{
+      if(e===session?.user.username){
+        // console.log(e)
+        flag=true;
+        return;
+      }
+    })
+    return flag;
+  }
   const handelclick=(ele:string):any=>{
     router.push(`/blogs/all-blogs/${ele}`)
   }
@@ -33,26 +46,26 @@ const DashBoard = () => {
           {blogs?.map((ele,i)=>(
             <div key={i}>
             <div className="flex flex-col gap-4 p-7">
-              <div className="flex gap-8">
-                <div className="flex flex-1 flex-col gap-3">
+              <div className="flex flex-1 gap-8 justify-between items-center">
+                <div className="flex flex-col gap-3">
                   <div className="text-xl">{ele.username}</div>
                   <div className="text-2xl font-bold">{ele.title}</div>
                   <div>{ele.sub_title}</div>
                 </div>
-                <div className="">
+                <div className="flex-2">
                   <Image
                     src={ele.img}
                     alt="no-image"
-                    height={200}
-                    width={200}
-                    className="w-100 h-200"
+                    style={{ width: 'auto', height:'auto'}}
+                    height={100}
+                    width={100}
                   />
                 </div>
               </div>
               <div className="flex gap-5">
                 <div>{new Date(ele.createdAt).toLocaleDateString()}</div>
                 <div className="flex gap-2 hover:cursor-pointer">
-                  <Heart />
+                  <Heart fill={isFill(ele)?"red":"white"} color={isFill(ele)?"red":"black"} />
                   <span>{ele.likecnt.length}</span>
                 </div>
                 <div className="flex gap-2 hover:cursor-pointer">
