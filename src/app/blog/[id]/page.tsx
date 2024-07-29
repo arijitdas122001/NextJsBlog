@@ -157,7 +157,7 @@ const Blog = () => {
   }
   return (
     <>
-    {loadpage?<>{Array.from(Array(3),(i)=><Loadingblog key={i}/>)}</>:
+    {loadpage?<>{Array.from(Array(3),(i)=><div key={i}><Loadingblog/></div>)}</>:
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
         <div className="fixed top-0 left-2/3 right-0 h-screen bg-white shadow-2xl overflow-x-scroll transition-transfrom ease-in-out delay-500">
@@ -180,7 +180,7 @@ const Blog = () => {
       </div>
     </div>
     {loading?<Loader className=" flexl justify-center items-center animate-spin"/>:comments?.Comments.map((ele, i) => (
-            <div key={i} className="flex-2 flex flex-col gap-2">
+            <div className="flex-2 flex flex-col gap-2" key={ele._id as string}>
             <div>
             <div className="text-lg">{ele.give_username}</div>
             <div className="">{ele.createdAt?new Date(ele.createdAt).toLocaleTimeString():"posting date"}</div>  
@@ -201,11 +201,12 @@ const Blog = () => {
               <button className="bg-green-400 rounded-lg pt-2 pb-2 pl-4 pr-4" onClick={()=>handelReply(ele.give_username,ele._id)}>Post</button>
             </div>}
              <div>
-            {openReplies && storeReplyId===ele._id && ele.Replies.map((ele,i)=>(
-              <div className="ml-4 border-l-2 border-black flex flex-col" key={i}>
+            {openReplies && storeReplyId===ele._id && ele.Replies.map((ele)=>(
+              <div className="ml-4 border-l-2 border-black flex flex-col" key={ele._id as string}>
                 <div className="p-3">
                 <div className="">{ele.give_username}</div>
                 <div className="" key={i}>{ele.reply_msg}</div>
+                <div className="text-xs">{new Date(ele.createdAt).toLocaleDateString()}</div>
                 </div>
                 <hr />
             </div>
@@ -238,6 +239,7 @@ const Blog = () => {
             </div>
             <div className="hover:cursor-pointer" onClick={LoadComment}>
               <MessageCircle/>
+              <span>{}</span>
             </div>
           </div>
           <hr />

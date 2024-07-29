@@ -57,7 +57,7 @@ const UserPage = () => {
             </div>
             {Loading ? (
               <div className="flex justify-center items-center ">
-                <Loader className="animate-spin h-[200px] w-[200px]"/>
+                <Loader className="animate-spin h-[100px] w-[100px]"/>
               </div>
             ) : (
               <div className="p-8 flex gap-3 flex-wrap bg-slate-300 rounded-2xl">
@@ -110,6 +110,7 @@ const UserPage = () => {
               alt="No_user_image"
               height={200}
               width={200}
+              priority={true}
             />
           </div>
         </div>
