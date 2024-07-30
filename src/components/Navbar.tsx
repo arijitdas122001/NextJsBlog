@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import { Bell, ClipboardPen, Search } from "lucide-react";
+import { Bell, ClipboardPen, LogIn, LogOut, Search } from "lucide-react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 function Navbar() {
   const { data: session } = useSession();
@@ -70,6 +70,11 @@ function Navbar() {
           <div className="flex justify-center items-center">
             <div>
               <Bell />
+            </div>
+          </div>
+          <div className="flex justify-center items-center">
+            <div>
+              {session?.user.username?<LogOut onClick={()=>signOut()}/>:<Link href={'/Sign-In'}><LogIn/></Link>}
             </div>
           </div>
           <div>

@@ -10,7 +10,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { BlogInterface } from "@/Model/Blog";
 import Image from "next/image";
-import { ExternalLink, Heart, Loader, Trash } from "lucide-react";
+import { ExternalLink, Heart, Loader, PencilLine, Trash } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
@@ -45,9 +45,20 @@ const UserPage = () => {
       title: res.data.message,
     });
   };
+  const isFill=(ele:any)=>{
+    let flag=false;
+    ele.likecnt.map((e:any)=>{
+      if(e===session?.user.username){
+        // console.log(e)
+        flag=true;
+        return;
+      }
+    })
+    return flag;
+  }
   return (
     <div>
-      <div className="flex justify-evenly ">
+      <div className="flex justify-evenly">
         <div className="flex-1">
           <div>
             <div className="text-7xl p-8">Arijit Das</div>
@@ -60,13 +71,20 @@ const UserPage = () => {
                 <Loader className="animate-spin h-[100px] w-[100px]"/>
               </div>
             ) : (
-              <div className="p-8 flex gap-3 flex-wrap bg-slate-300 rounded-2xl">
+              <div className="p-8 flex gap-6 flex-wrap bg-slate-300 rounded-2xl">
                 {!blogs?.length ? (
                   <div className="text-xl">You haven't written anything</div>
                 ) : (
                   blogs?.map((ele, i) => (
                     <div key={i}>
-                      <Card className="h-[400px] w-[350px] flex flex-col gap-5">
+                      <Card className="h-[400px] w-[350px] flex flex-col gap-3">
+                      {session?.user.username === params.username && (
+                             <div className="flex justify-end pt-2 pr-2">
+                            <Link href={`/blogs/edit/${ele._id}`}>
+                             <PencilLine className="hover:cursor-pointer"/>
+                             </Link>
+                             </div>
+                            )}
                         <CardHeader>
                           <CardTitle>{ele.title!}</CardTitle>
                           <CardDescription>{ele.sub_title}</CardDescription>
@@ -80,9 +98,9 @@ const UserPage = () => {
                             className="flex justify-center align-middle"
                           />
                         </div>
-                        <div className="flex justify-evenly align-middle">
+                        <div className="flex justify-between align-middle p-4">
                           <div className="flex justify-center align-middle gap-2">
-                            <Heart color="black" />
+                            <Heart fill={isFill(ele)?"red":"white"} color={isFill(ele)?"red":"black"} />
                             <span>{ele.likecnt.length}</span>
                           </div>
                           <div className="flex gap-2 hover:cursor-pointer">

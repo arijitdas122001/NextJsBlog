@@ -22,9 +22,9 @@ export async function POST(req:Request) {
             email:email,
             password:hashedPassword,
             img:img_data.secure_url,
-            all_blogs:[]
         });
-        const response=await user_body.save();
+        console.log(user_body);
+        user_body.save();
         return ApiResponse(200,"User Saved Successfully",true);
     } catch (error) {
         return ApiResponse(400,"Error occured while registering the user",false);

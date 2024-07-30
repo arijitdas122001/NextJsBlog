@@ -14,7 +14,7 @@ import {useForm } from "react-hook-form";
 import { z } from "zod";
 import { CommentSchema } from "@/schemas/CommentSchema";
 import { Form } from "@/components/ui/form";
-import {Heart, Loader, MessageCircle } from "lucide-react";
+import {Heart, Loader, MessageCircle, X } from "lucide-react";
 import Loadingblog from "@/components/skelitons/Loadingblog";
 const Blog = () => {
   const params = useParams();
@@ -155,12 +155,20 @@ const Blog = () => {
       const res=await axios.post(`http://localhost:3000/api/Give-cmt-like/${blog_id}`,body);
       SetCmtGivenLike(true);
   }
+  const handelClose=()=>{
+    setshowcomment(false);
+  }
   return (
     <>
-    {loadpage?<>{Array.from(Array(3),(i)=><div key={i}><Loadingblog/></div>)}</>:
+    {loadpage?<>{Array.from(Array(3),(i)=>(<Loadingblog key={i}/>))}</>:
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
         <div className="fixed top-0 left-2/3 right-0 h-screen bg-white shadow-2xl overflow-x-scroll transition-transfrom ease-in-out delay-500">
+        <div className="flex justify-end pr-4">
+        <div className="bg-slate-200 rounded-full" onClick={handelClose}>
+        <X className="cursor-pointer" size={50}/>
+        </div>
+        </div>
         <div className="p-5">
         <div className="flex flex-col gap-6">
         <div className="flex-1">

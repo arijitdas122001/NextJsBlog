@@ -5,6 +5,7 @@ import axios from "axios";
 import { Heart, Loader, MessageCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -49,7 +50,11 @@ const DashBoard = () => {
               <div className="flex flex-1 gap-8 justify-between items-center">
                 <div className="flex flex-col gap-3">
                   <div className="text-xl">{ele.username}</div>
-                  <div className="text-2xl font-bold">{ele.title}</div>
+                  <div className="text-2xl font-bold hover:cursor-pointer">
+                    <Link href={`/blog/${ele._id}`}>
+                    {ele.title}
+                    </Link>
+                  </div>
                   <div>{ele.sub_title}</div>
                 </div>
                 <div className="flex-2">
