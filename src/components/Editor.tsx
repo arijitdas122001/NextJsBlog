@@ -11,6 +11,7 @@ const RTE = ({control,name,value,height}:any) => {
       control={control}
       render={({ field: { onChange} }) => (
         <Editor
+        id='1'
         apiKey="udsi82f7q32y5zzsus4zskpa4uy4532c1vqybmn1vg65ezmu"
         onInit={(_evt, editor) => editorRef.current = editor}
         initialValue={value}

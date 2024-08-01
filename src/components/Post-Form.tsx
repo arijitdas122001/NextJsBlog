@@ -20,11 +20,11 @@ import { useToast } from "./ui/use-toast";
 import { Loader } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-const Post_Form = ({post}:any) => {
+const Post_Form = () => {
   // console.log(post?.title);
   const [image, setimage] = useState<File>();
   const [tempTagArray, settempTagArray] = useState<string[]>(tags);
-  const [Tags, setTags] = useState<string[]>(post?.tags || []);
+  const [Tags, setTags] = useState<string[]>([]);
   const [submitting,setSubmitting]=useState(false);
   const {toast}=useToast();
   const {data:session}=useSession();
@@ -70,16 +70,7 @@ const Post_Form = ({post}:any) => {
        // from_data.append("tags",[])
     // console.log(image);
     const value=slugTransfrom();
-    console.log(value);
-    if(post){
-      const res=await axios.post(`http://localhost:3000/api/Blog-Edit/${value}/${post?._id}`,from_data);
-      toast({
-        title:"Success",
-        description:res.data.message,
-        variant:"default"
-      })
-      router.push(`/user/${data.username}`)
-    }else{
+    // console.log(value);s
     const res = await axios.post(
       `http://localhost:3000/api/Blog-Upload/${value}`,
       from_data
@@ -90,7 +81,6 @@ const Post_Form = ({post}:any) => {
       variant:"default"
     })
     router.push(`/user/${data.username}`)
-  }
   setSubmitting(false);
  }
     catch (error) {
@@ -130,7 +120,6 @@ const Post_Form = ({post}:any) => {
                 <FormLabel>Title</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter your blog title" {...field}
-                  defaultValue={post?.title}
                    />
                 </FormControl>
               </FormItem>
@@ -146,7 +135,6 @@ const Post_Form = ({post}:any) => {
                   <Input
                     placeholder="Enter Subtitle(It will show on the preview)"
                     {...field}
-                    defaultValue={post?.sub_title}
                   />
                 </FormControl>
               </FormItem>
@@ -154,9 +142,9 @@ const Post_Form = ({post}:any) => {
           />
           <div className="flex gap-2 flex-col align-middle">
             <label>Write Your blog here</label>
-            <RTE control={form.control} name="description" value={post?.description} />
+            <RTE control={form.control} name="description" />
             <label htmlFor="image">Upload your image here</label>
-            <Input
+          <Input
               id="image"
               type="file"
               onChange={onChangeHandeler}
@@ -164,15 +152,13 @@ const Post_Form = ({post}:any) => {
             />
             <div className="flex flex-col gap-4">
               <div className="border-2 border-indigo-300 rounded-xl p-2 flex gap-2">
-                {Tags.length === 0 ? (
-                  <label>choose your tags below</label>
-                ) : (
-                  Tags.map((ele,i) => (
+                  {Tags.length===0?(<label>choose your tags below</label>):
+                  Tags.map((ele,i)=>(
                     <div className="bg-gray-400 rounded-lg p-1 font-serif" key={i}>
                       {ele}
                     </div>
                   ))
-                )}
+                }
               </div>
               <div className="flex gap-5">
                 {tempTagArray.map((ele,i) => (

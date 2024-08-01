@@ -16,6 +16,7 @@ import { CommentSchema } from "@/schemas/CommentSchema";
 import { Form } from "@/components/ui/form";
 import {Heart, Loader, MessageCircle, X } from "lucide-react";
 import Loadingblog from "@/components/skelitons/Loadingblog";
+import { loadComponents } from "next/dist/server/load-components";
 const Blog = () => {
   const params = useParams();
   const blog_id = params.id;
@@ -158,6 +159,8 @@ const Blog = () => {
     setshowcomment(false);
   }
   return (
+    <>
+    {loadpage?<Loadingblog/>:
     <div>
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
@@ -226,7 +229,6 @@ const Blog = () => {
         </div>
         </div>
     )}
-    {loadpage?<Loadingblog/>:
       <div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flex-2">
         <div className="text-4xl font-bold">{Data?.title}</div>
         <div>
@@ -272,9 +274,10 @@ const Blog = () => {
           <hr className="bg-black" />
         </div>
       </div>
+    </div>
+    </div>
     }
-    </div>
-    </div>
+    </>
   );
 };
 
