@@ -55,7 +55,6 @@ const Blog = () => {
           description: "Failed to Fetch the blog",
           variant: "destructive",
         });
-        setloadingpage(false);
       }
     };
     fetchData();
@@ -159,8 +158,7 @@ const Blog = () => {
     setshowcomment(false);
   }
   return (
-    <>
-    {loadpage?<>{Array.from(Array(3),(i)=>(<Loadingblog key={i}/>))}</>:
+    <div>
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
       {showcomment && (
         <div className="fixed top-0 left-2/3 right-0 h-screen bg-white shadow-2xl overflow-x-scroll transition-transfrom ease-in-out delay-500">
@@ -228,6 +226,7 @@ const Blog = () => {
         </div>
         </div>
     )}
+    {loadpage?<Loadingblog/>:
       <div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flex-2">
         <div className="text-4xl font-bold">{Data?.title}</div>
         <div>
@@ -273,9 +272,9 @@ const Blog = () => {
           <hr className="bg-black" />
         </div>
       </div>
+    }
     </div>
-   }
-   </>
+    </div>
   );
 };
 

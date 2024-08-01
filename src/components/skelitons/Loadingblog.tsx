@@ -2,6 +2,7 @@ import React from 'react'
 
 const Loadingblog = () => {
   return (
+    <div>
     <div className="flex flex-col min-h-screen items-center justify-center h-full relative">
     <div className="w-full max-w-screen-lg space-y-8 bg-white p-6  flex-2">
       <div className="text-4xl font-bold bg-slate-300 text-transparent animate-pulse rounded-lg">title</div>
@@ -43,6 +44,7 @@ const Loadingblog = () => {
         <hr className="bg-black" />
       </div>
     </div>
+  </div>
   </div>
   )
 }

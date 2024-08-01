@@ -36,23 +36,23 @@ function Navbar() {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-black rounded-xl">
                   <ul className="grid w-[200px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] text-white">
-                    <ListItem>
-                      <Link href={"/"}>Home</Link>
+                    <ListItem href={"/"}>
+                      Home
                     </ListItem>
-                    <ListItem>
-                      <Link href={"/blogs/upload"}>Write your own</Link>
+                    <ListItem href={"/blogs/upload"}>
+                      Write your own
                     </ListItem>
-                    <ListItem>
-                      <Link href={"/blogs/all-blogs/all"}>Visit all blogs</Link>
+                    <ListItem href={"/blogs/all-blogs/all"}>
+                      Visit all blogs
                     </ListItem>
-                    <ListItem>
-                      <Link href={"/dashboard"}>Dashboard</Link>
+                    <ListItem href={"/dashboard"}>
+                      Dashboard
                     </ListItem>
-                    <ListItem>
-                      <Link href={"/Sign-In"}>Log-In</Link>
+                    <ListItem href={"/Sign-In"}>
+                      Log-In
                     </ListItem>
-                    <ListItem>
-                      <Link href={"/Sign-up"}>Sign-Up</Link>
+                    <ListItem href={"/Sign-up"}>
+                      Sign-Up
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
