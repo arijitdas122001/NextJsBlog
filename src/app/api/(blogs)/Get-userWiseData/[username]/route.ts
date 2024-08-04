@@ -1,9 +1,10 @@
 import BlogModel from "@/Model/Blog";
 import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection"
+import { NextRequest } from "next/server";
 
 export async function POST(
-    req:Request,
+    req:NextRequest,
     res:Response,
     {params }: { params: { 
         username:string
