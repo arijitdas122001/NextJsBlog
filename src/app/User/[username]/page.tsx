@@ -30,7 +30,7 @@ const UserPage = () => {
   };
   useEffect(() => {
     LoadBlogs();
-  }, []);
+  }, [session]);
   const DeleteBlog = async (id: string) => {
     const newobj = {
       user_id: session?.user._id!,
@@ -73,7 +73,7 @@ const UserPage = () => {
             ) : (
               <div className="p-8 flex gap-6 flex-wrap bg-slate-300 rounded-2xl">
                 {!blogs?.length ? (
-                  <div className="text-xl">You haven't written anything</div>
+                  <div className="text-xl">You haven&apos; written anything</div>
                 ) : (
                   blogs?.map((ele, i) => (
                     <div key={i}>

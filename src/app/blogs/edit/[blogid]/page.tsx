@@ -1,7 +1,7 @@
 'use client'
 import PostfromEdit from "@/components/PostEditForm";
 import {useParams} from "next/navigation";
-const page = () => {
+const Page = () => {
   const params=useParams();
   const blogid=params.blogid;
   return (
@@ -14,4 +14,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

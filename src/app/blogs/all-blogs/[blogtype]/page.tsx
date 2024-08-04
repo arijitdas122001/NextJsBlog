@@ -32,7 +32,7 @@ const AllBlogs = () => {
         }
         }
         FetchAllBlogs();
-    },[])
+    },[params])
   return (
     <>
     <div className="flex flex-col gap-2 justify-center flex-wrap bg-cyan-900 min-h-screen">

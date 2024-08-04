@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod';
-const page = () => {
+const Page = () => {
     const form=useForm<z.infer<typeof RegisterSchema>>();
     const [signingup,setSigningup]=useState(false);
     const [image,setimage]=useState<File>();
@@ -138,4 +138,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

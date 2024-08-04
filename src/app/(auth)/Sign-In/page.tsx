@@ -10,7 +10,7 @@ import { SignInSchema } from '@/schemas/SignInSchema';
 import { toast } from '@/components/ui/use-toast';
 import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-const page = () => {
+const Page = () => {
     const [signingIn,setSigningIn]=useState(false);
     // const {data:session }=useSession();
     const router=useRouter();
@@ -122,4 +122,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

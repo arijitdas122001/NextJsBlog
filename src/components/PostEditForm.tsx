@@ -25,7 +25,7 @@ const PostfromEdit = ({blogid}:any) => {
       setpost(res.data.blog);
       }
       onSubmit();
-    },[])
+    },[blogid])
     const onSubmit=async(data:any)=>{
         setSubmitting(true);
     try {
