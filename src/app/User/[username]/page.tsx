@@ -30,7 +30,7 @@ const UserPage = () => {
   };
   useEffect(() => {
     LoadBlogs();
-  }, [session]);
+  }, []);
   const DeleteBlog = async (id: string) => {
     const newobj = {
       user_id: session?.user._id!,

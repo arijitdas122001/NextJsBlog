@@ -3,6 +3,7 @@ import ApiResponse from "@/utils/ApiResponse";
 import { DbConnect } from "@/utils/DbConnection"
 
 export async function POST(
+    req:Request,
     res:Response,
     {params }: { params: { 
         username:string

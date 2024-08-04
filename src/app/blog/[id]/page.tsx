@@ -38,26 +38,26 @@ const Blog = () => {
   const [BlogGivenLike,setBlogGivenLike]=useState(false);
   const { data: session } = useSession();
   const form=useForm<z.infer<typeof CommentSchema>>();
+  const fetchData = async () => {
+    try {
+      setloadingpage(true);
+      const res = await axios.post(
+        `http://localhost:3000/api/Get-Blog/${blog_id}`
+      );
+      setData(res.data.blog);
+      setdescription(res.data.blog.description);
+      setloadingpage(false);
+      // console.log(data);
+    } catch (error) {
+      seterror(true);
+      toast({
+        title: "Failure",
+        description: "Failed to Fetch the blog",
+        variant: "destructive",
+      });
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setloadingpage(true);
-        const res = await axios.post(
-          `http://localhost:3000/api/Get-Blog/${blog_id}`
-        );
-        setData(res.data.blog);
-        setdescription(res.data.blog.description);
-        setloadingpage(false);
-        // console.log(data);
-      } catch (error) {
-        seterror(true);
-        toast({
-          title: "Failure",
-          description: "Failed to Fetch the blog",
-          variant: "destructive",
-        });
-      }
-    };
     fetchData();
   }, []);
   useEffect(()=>{
