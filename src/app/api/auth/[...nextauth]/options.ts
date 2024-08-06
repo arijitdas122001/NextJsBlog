@@ -44,8 +44,9 @@ export const authOptions:NextAuthOptions={
             if (token) {
               session.user._id=token._id
               session.user.email=token.email
-              session.user.username=token.username
+              session.user.username=token.username 
             }
+            // console.log(session);
             return session;
           },
     },
@@ -55,5 +56,6 @@ export const authOptions:NextAuthOptions={
       secret: process.env.NEXTAUTH_SECRET,
       pages: {
         signIn: '/Sign-In',
+        
       },
 } 
