@@ -42,10 +42,10 @@ const Blog = () => {
     try {
       setloadingpage(true);
       const res = await axios.post(
-        `http://localhost:3000/api/Get-Blog/${blog_id}`
+        `${process.env.NEXT_PUBLIC_URL}/Get-Blog/${blog_id}`
       );
       setData(res.data.blog);
-      setdescription(res.data.blog.description);
+      setdescription(res.data.blog.description);  
       setloadingpage(false);
       // console.log(data);
     } catch (error) {
@@ -82,7 +82,7 @@ const Blog = () => {
     // console.log(showcomment);
     setloading(true);
     const commentsRes = await axios.post(
-      `http://localhost:3000/api/Fetch-Comments/${blog_id}`
+      `${process.env.NEXT_PUBLIC_URL}/Fetch-Comments/${blog_id}`
     );
     setComments(commentsRes.data.model);
     setloading(false);
@@ -96,7 +96,7 @@ const Blog = () => {
     "comment":data.comment
     }
     // console.log("till here");
-    const res=await axios.post('http://localhost:3000/api/Give-Comment',commentBody);
+    const res=await axios.post(`${process.env.NEXT_PUBLIC_URL}/Give-Comment`,commentBody);
     LoadComment();
     setshowcomment(true);
     toast({
@@ -106,7 +106,7 @@ const Blog = () => {
   }
   const GiveLike=async()=>{
     setGivenLike(true);
-    const res=await axios.post('http://localhost:3000/api/Give-Like',{
+    const res=await axios.post(`${process.env.NEXT_PUBLIC_URL}/Give-Like`,{
       "recv_like_username":session?.user.username,
     "from_username":session?.user.username,
     "blog_id":blog_id
@@ -141,7 +141,7 @@ const Blog = () => {
     "replymsg":reply
     }
     // console.log(data?.username);
-    const res=await axios.post(`http://localhost:3000/api/Reply-sent/${cmt_id}`,body);
+    const res=await axios.post(`${process.env.NEXT_PUBLIC_URL}/Reply-sent/${cmt_id}`,body);
     LoadComment();
     toast({
       title:res.data.message
@@ -152,7 +152,7 @@ const Blog = () => {
         "cmt_id":cmt_id,
         "from_username":session?.user.username
       }
-      const res=await axios.post(`http://localhost:3000/api/Give-cmt-like/${blog_id}`,body);
+      const res=await axios.post(`${process.env.NEXT_PUBLIC_URL}/Give-cmt-like/${blog_id}`,body);
       SetCmtGivenLike(true);
   }
   const handelClose=()=>{

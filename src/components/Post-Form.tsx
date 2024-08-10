@@ -72,7 +72,7 @@ const Post_Form = () => {
     const value=slugTransfrom();
     // console.log(value);s
     const res = await axios.post(
-      `http://localhost:3000/api/Blog-Upload/${value}`,
+      `${process.env.NEXT_PUBLIC_URL}Blog-Upload/${value}`,
       from_data
     );
     toast({

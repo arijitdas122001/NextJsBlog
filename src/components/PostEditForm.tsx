@@ -20,7 +20,7 @@ const PostfromEdit = ({blogid}:any) => {
     const [post,setpost]=useState<any>();
     useEffect(()=>{
       const onSubmit=async()=>{
-      const res=await axios.post(`http://localhost:3000/api/Get-Blog/${blogid}`);
+      const res=await axios.post(`${process.env.NEXT_PUBLIC_URL}Get-Blog/${blogid}`);
       // console.log(res.data)
       setpost(res.data.blog);
       }
@@ -40,7 +40,7 @@ const PostfromEdit = ({blogid}:any) => {
     // console.log(image);
     // console.log(value);s
       console.log()
-      const res=await axios.post(`http://localhost:3000/api/Blog-Edit/${post?._id}`,newbody);
+      const res=await axios.post(`${process.env.NEXT_PUBLIC_URL}Blog-Edit/${post?._id}`,newbody);
       toast({
         title:"Success",
         description:res.data.message,

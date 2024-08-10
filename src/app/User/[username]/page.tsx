@@ -24,7 +24,7 @@ const UserPage = () => {
   const LoadBlogs = async () => {
     SetLoading(true);
     const response = await axios.post(
-      `http://localhost:3000/api/Get-userWiseData/${params.username}`
+      `${process.env.NEXT_PUBLIC_URL}Get-userWiseData/${params.username}`
     );
     setblogs(response.data.res);
     SetLoading(false);
@@ -38,7 +38,7 @@ const UserPage = () => {
       blog_id: id,
     };
     const res = await axios.post(
-      "http://localhost:3000/api/Blog-Delete",
+      `${process.env.NEXT_PUBLIC_URL}Blog-Delete`,
       newobj
     );
     LoadBlogs();

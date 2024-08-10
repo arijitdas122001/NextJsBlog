@@ -57,7 +57,7 @@ const Page = () => {
         from_data.append("password",data.password)
         from_data.append("img",image!)
           console.log("till here 3");
-        const res=await axios.post('http://localhost:3000/api/sign-up',from_data);
+        const res=await axios.post(`${process.env.NEXT_PUBLIC_URL}sign-up`,from_data);
         toast({
           title:"Success",
           variant:'default'

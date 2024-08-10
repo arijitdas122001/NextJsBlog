@@ -15,7 +15,7 @@ const AllBlogs = () => {
         const FetchAllBlogs=async()=>{
           setFetching(true);
         try{
-            const res=await axios.post(`http://localhost:3000/api/AllBlog-Get/${params.blogtype}`);
+            const res=await axios.post(`${process.env.NEXT_PUBLIC_URL}AllBlog-Get/${params.blogtype}`);
             const obj=res.data;
             // console.log(obj.All_Blogs);
             setAllBlogs(obj.All_Blogs);

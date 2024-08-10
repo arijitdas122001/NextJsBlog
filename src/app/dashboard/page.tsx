@@ -17,7 +17,7 @@ const DashBoard = () => {
   useEffect(() => {
     const LoadData = async () => {
       setLoading(true);
-      const res = await axios.post("http://localhost:3000/api/AllBlog-Get/all");
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}AllBlog-Get/all`);
       setBlogs(res.data.All_Blogs);
       setLoading(false);
     };
