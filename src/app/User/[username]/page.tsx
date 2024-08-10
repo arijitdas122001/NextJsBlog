@@ -18,6 +18,7 @@ const UserPage = () => {
   const [blogs, setblogs] = useState<[BlogInterface]>();
   const [Loading, SetLoading] = useState(false);
   const params = useParams();
+  // console.log(params.username);
   const { toast } = useToast();
   const { data: session } = useSession();
   const LoadBlogs = async () => {
