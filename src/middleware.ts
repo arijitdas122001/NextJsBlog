@@ -12,9 +12,9 @@ export async function middleware(request: NextRequest) {
     if(!token && 
        protectedRoutes.includes(request.nextUrl.pathname)
     ){
-        return NextResponse.redirect(new URL('/Sign-In', request.url))
+        return NextResponse.redirect(new URL('/AuthRedirect', request.url))
     }
 }
 export const config = {
-  matcher: ['/blogs/all-blogs/:path*','/User/[username]','/blogs/upload'],
+  matcher: ['/blogs/all-blogs/:path*','/User/:path*','/blogs/upload'],
 }

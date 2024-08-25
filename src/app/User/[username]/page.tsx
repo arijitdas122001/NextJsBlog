@@ -59,10 +59,11 @@ const UserPage = () => {
   }
   return (
     <div>
+    {session?.user?
       <div className="flex justify-evenly">
         <div className="flex-1">
           <div>
-            <div className="text-7xl p-8">Arijit Das</div>
+            <div className="text-7xl p-8">{session?.user.username}</div>
             <div className="p-8 text-2xl">
               <span>Blogs</span>
               <hr />
@@ -133,8 +134,11 @@ const UserPage = () => {
             />
           </div>
         </div>
-      </div>
     </div>
+    :(<div>
+      <div className="text-xl">Please log in first to see your profile</div>
+    </div>)}
+      </div>
   );
 };
 

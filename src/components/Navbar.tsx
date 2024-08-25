@@ -13,9 +13,15 @@ import Image from "next/image";
 import { Bell, ClipboardPen, LogIn, LogOut, Search } from "lucide-react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
   const { data: session } = useSession();
+  const router=useRouter();
+  const handelLogOutClick=()=>{
+    signOut();
+    router.replace('/AuthRedirect')
+  }
   return (
     <div className="border border-black">
       <div className="p-2 flex justify-between">
@@ -74,7 +80,7 @@ function Navbar() {
           </div>
           <div className="flex justify-center items-center">
             <div>
-              {session?.user.username?<LogOut onClick={()=>signOut()}/>:<Link href={'/Sign-In'}><LogIn/></Link>}
+              {session?.user.username?<LogOut onClick={handelLogOutClick}/>:<Link href={'/Sign-In'}><LogIn/></Link>}
             </div>
           </div>
           <div>
